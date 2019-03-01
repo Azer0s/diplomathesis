@@ -1,0 +1,71 @@
+= Microservice Architecture and Distributed Systems
+Ariel Simulevski <ariel@simulevski.at>
+v1.0, 2018-12-31
+:example-caption!:
+:media: prepress
+:icons: font
+:source-highlighter: rouge
+
+ifdef::backend-pdf[:imagesoutdir: ../../../build/asciidoc/{backend}/images]
+ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
+
+// this renders a dynamic table of content
+:toc:
+
+== Abstract
+
+== Introduction
+
+=== Distributed Systems
+
+=== System Architectures
+
+=== Structure of this Thesis
+
+<<<
+
+== Application Architectures for distributed Systems
+
+=== Monolithic Architectures
+
+=== Microservice Architectures
+
+=== Serverless Architectures
+
+== Scaling
+
+=== Monolithic
+
+=== Microservices
+
+=== Serverless
+
+== Scaling Across Datacenters
+
+== Implementation of Social Networks
+
+=== General Aspects on Implementing Social Networks
+
+=== Initial Microservice Implementation
+
+==== System Architecture
+
+==== Experience
+
+==== Issues and Limitations
+
+=== Moving to Serverless Implementation
+
+==== Modified System Architecture
+
+=== Comparison of Microservices and Serverless
+
+== Results and Learnings
+
+== Conclusion
+
+<<<
+[bibliography]
+== References
+
+- [[[gcc,1]]] GCC, the GNU Compiler Collection - GNU Project - Free Software Foundation (FSF): https://gcc.gnu.org/

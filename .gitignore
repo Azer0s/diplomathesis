@@ -1,0 +1,10 @@
+
+# idea stuff
+.idea/
+*.iml
+
+# maven build stuff
+target/
+
+# asciidoc temp stuff
+.asciidoctor
