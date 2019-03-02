@@ -34,7 +34,7 @@ One central paradigm of monoliths is layered architecture. Layered architecture 
 
 .Layered architecture pattern
 [#img-monolith]
-[caption="Figure 1: ",link=https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html]
+[caption="Figure 1: "]
 image::../images/LayeredArchitecture.png[]
 
 ==== Advantages
@@ -71,9 +71,15 @@ As Lewis described in 2012, microservices are "small with a single responsibilit
 
 ==== Advantages
 
+Microservices were always seen as a successor to monoliths. <<microservices-history>> Therefore, they attempt to solve many of the problems that the monolithic architecture has. Due to each microservice being, relatively, small, the risk of a system becoming too complex for new developers to understand is kept to a minimum. The small, single responsibility nature of microservices allows for on-the-fly updating through CI/CD. Furthermore, microservices allow for language agnostic development. That means that one can use multiple programming languages and runtimes in one project to best suit the need of specific usecases/functions. <<monolith>> <<microservices-cicd>>
+
 ==== Drawbacks
 
-The architecture for a system which builds uppon a microservice architecture could look like this:
+Of course, microservices are not the be-all and end-all of backend architecture and therefore do have some problems.
+
+//TODO
+
+The architecture for a system which builds upon a microservice architecture could look like this:
 
 .Netflix microservice architecture stack
 [#img-microservices]
@@ -128,3 +134,4 @@ This implementation of the microservice architecture utilizes the Netflix stack.
 - [[[microservices-krakow,6]]] 33rd Degree - Conference for Java Masters - Micro services - Java, the Unix Way: http://2012.33degree.org/talk/show/67; http://2012.33degree.org/pdf/JamesLewisMicroServices.pdf
 - [[[microservices-fowler,7]]] Microservices: https://martinfowler.com/articles/microservices.html
 - [[[microservices-medium,8]]] Talking microservices with the man who made Netflix’s cloud famous: https://medium.com/s-c-a-l-e/talking-microservices-with-the-man-who-made-netflix-s-cloud-famous-1032689afed3
+- [[[microservices-cicd,9]]] Continuous Deployment and Monitoring of Microservices - DevOps.com: https://devops.com/continuous-deployment-monitoring-microservices/
