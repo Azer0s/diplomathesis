@@ -68,11 +68,12 @@ The term "microservice" was first used at a conference in Venice in 2011. In 201
 
 As Lewis described in 2012, microservices are "small with a single responsibility". This means that each microservice (or each application in the system) only does a single thing. According to Lewis, a microservice should be "Small enough to fit in [ones] head". The usecases of a single microservice are supposed to be so small, that one can think about all of them at the same time.
 
-The architecture for a system which builds uppon a microservice architecture could look like this:
 
 ==== Advantages
 
 ==== Drawbacks
+
+The architecture for a system which builds uppon a microservice architecture could look like this:
 
 .Netflix microservice architecture stack
 [#img-microservices]
