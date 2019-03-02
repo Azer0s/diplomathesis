@@ -24,15 +24,66 @@ ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
 
 <<<
 
-== Application Architectures for distributed Systems
+== Application Architectures
 
 === Monolithic Architectures
 
+A monolithic architecture describes the structure of a system which houses the entire backend of a platform. Every part of the backend (persistence, business-logic, UI, etc...) is contained in this single program. <<monolith>>
+
+One central paradigm of monoliths is layered architecture. Layered architecture describes a concept in which a program consists of multiple layers, each responsible for a specific thing with very limited interaction between said layers. <<layered-architecture>>
+
+.Layered architecture pattern
+[#img-monolith]
+[caption="Figure 1: ",link=https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html]
+image::../images/LayeredArchitecture.png[]
+
+==== Advantages
+
+Although the concept of monolithic architecture is quite old, it still has decisive advantages over other architectures.
+
+Due to the simplicity in architectural design, a monolith is very easy to develop, the layered architecture also allows for the application to be simple to test and the deployment of monolithic systems is also fairly straightforward: the binary of the program simply has to be copied to the target machine and then be executed. <<monolith>>
+
+==== Drawbacks
+
+That being said, due to some aspects of monolithic architecture, this architectural style has become unviable to most and even an antipattern to some. <<monolith-codingthearchitecture>>
+
+Monolithic systems can become very complex to understand. Especially for new developers and fast growing projects, this is a big problem. Furthermore, an instance of a monolithic system cannot be updated without the instance shutting down. And due to the strongly-coupled nature of monoliths, unknown code dependencies might make the system crash because of a single change. <<monolith>> <<monolith-doomed>>
+
+Even though, the drawbacks of monoliths outweigh the advantages, monolithic architecture is still widely used in smaller projects, legacy systems or projects which lack the necessary financial resources for a more advanced software architecture.
+
+A typical monolithic architecture stack from Microsoft could look like so:
+
+.Microsofts monolithic architecture stack
+[#img-msstack]
+[caption="Figure 2: "]
+image::../images/MonolithicArchitectureMicrosoft.png[]
+
+This is a fairly well known software stack from Microsoft. The described architecture uses ASP.NET as the system framework and Microsoft SQL Server as the database.
+
 === Microservice Architectures
+
+Microservices have been the "architectural answer" to monoliths. Coined by Dr. Peter Rogers during a cloud computing conference, the term "micro web services" first described the idea of loosely coupled services which run independently and can each be maintained and developed individually. <<microservices-history>>
+
+The term "microservice" was first used at a conference in Venice in 2011. In 2012 the architectural style gained more popularity. At a talk at a conference in Krakow (Micro services - Java, the Unix Way <<microservices-krakow>>), James Lewis presented his ideas on the topic. Later that year Adrian Cockcroft of Netflix described microservices as "fine-grained SOA" and helped establish a microservice architecture at Netflix, thus pioneering the architecture at scale. <<microservices-fowler>> <<microservices-medium>>
+
+As Lewis described in 2012, microservices are "small with a single responsibility". This means that each microservice (or each application in the system) only does a single thing. According to Lewis, a microservice should be "Small enough to fit in [ones] head". The usecases of a single microservice are supposed to be so small, that one can think about all of them at the same time.
+
+The architecture for a system which builds uppon a microservice architecture could look like this:
+
+==== Advantages
+
+==== Drawbacks
+
+.Netflix microservice architecture stack
+[#img-microservices]
+[caption="Figure 2: "]
+image::../images/MicroserviceArchitectureSpring.png[]
+
+This implementation of the microservice architecture utilizes the Netflix stack. The Netflix stack is a collection of libraries to make dealing with microservices easier. At the top of the architecture, there is the API gateway (the service that forwards requests to the services based on their route). Down below, there are the actual services with their corresponding databases (Couchbase in this particular example). Microservices do not always need to have their own database, but can also all have the same database.
 
 === Serverless Architectures
 
-== Scaling
+== Scaling Architectures in Distributed Systems
 
 === Monolithic
 
@@ -68,4 +119,11 @@ ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
 [bibliography]
 == References
 
-- [[[gcc,1]]] GCC, the GNU Compiler Collection - GNU Project - Free Software Foundation (FSF): https://gcc.gnu.org/
+- [[[monolith,1]]] Introduction to Monolithic Architecture and MicroServices Architecture: https://medium.com/koderlabs/introduction-to-monolithic-architecture-and-microservices-architecture-b211a5955c63
+- [[[layered-architecture,2]]] 1. Layered Architecture - Software Architecture Patterns [Book]: https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html
+- [[[monolith-codingthearchitecture,3]]] What is a Monolith? - Coding the Architecture: http://www.codingthearchitecture.com/2014/11/19/what_is_a_monolith.html
+- [[[monolith-doomed,4]]] Are Monolithic Software Applications Doomed for Extinction? - Nortal: https://nortal.com/de/blog/are-monolithic-software-applications-doomed-for-extinction/
+- [[[microservices-history,5]]] Microservices: What They Are and Why Use Them: https://blog.leanix.net/en/a-brief-history-of-microservices
+- [[[microservices-krakow,6]]] 33rd Degree - Conference for Java Masters - Micro services - Java, the Unix Way: http://2012.33degree.org/talk/show/67; http://2012.33degree.org/pdf/JamesLewisMicroServices.pdf
+- [[[microservices-fowler,7]]] Microservices: https://martinfowler.com/articles/microservices.html
+- [[[microservices-medium,8]]] Talking microservices with the man who made Netflix’s cloud famous: https://medium.com/s-c-a-l-e/talking-microservices-with-the-man-who-made-netflix-s-cloud-famous-1032689afed3
