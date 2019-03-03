@@ -35,7 +35,7 @@ One central paradigm of monoliths is layered architecture. Layered architecture 
 .Layered architecture pattern
 [#img-monolith]
 [caption="Figure 1: "]
-image::../images/LayeredArchitecture.png[]
+image::../images/LayeredArchitecture.png[align=center]
 
 ==== Advantages
 
@@ -55,8 +55,9 @@ A typical monolithic architecture stack from Microsoft could look like so:
 
 .Microsofts monolithic architecture stack
 [#img-msstack]
+[.center]
 [caption="Figure 2: "]
-image::../images/MonolithicArchitectureMicrosoft.png[]
+image::../images/MonolithicArchitectureMicrosoft.png[align=center]
 
 This is a fairly well known software stack from Microsoft. The described architecture uses ASP.NET as the system framework and Microsoft SQL Server as the database.
 
@@ -71,24 +72,42 @@ As Lewis described in 2012, microservices are "small with a single responsibilit
 
 ==== Advantages
 
-Microservices were always seen as a successor to monoliths. <<microservices-history>> Therefore, they attempt to solve many of the problems that the monolithic architecture has. Due to each microservice being, relatively, small, the risk of a system becoming too complex for new developers to understand is kept to a minimum. The small, single responsibility nature of microservices allows for on-the-fly updating through CI/CD. Furthermore, microservices allow for language agnostic development. That means that one can use multiple programming languages and runtimes in one project to best suit the need of specific usecases/functions. <<monolith>> <<microservices-cicd>>
+Microservices were always seen as a successor to monoliths. <<microservices-history>> Therefore, they attempt to solve many of the problems that the monolithic architecture has. Due to each microservice being, relatively, small, the risk of a system becoming too complex for new developers to understand is kept to a minimum. The small, single responsibility nature of microservices allows for on-the-fly updating through CI/CD. Furthermore, microservices allow for language agnostic development. That means that one can use multiple programming languages and runtimes in one project to best suit the need of specific usecases/functions. <<monolith>> <<microservices-cicd>> <<microservices-dzone>>
 
 ==== Drawbacks
 
 Of course, microservices are not the be-all and end-all of backend architecture and therefore do have some problems.
 
-//TODO
+The added complexity of having to deal with distributed systems and inter-service communication might add difficulties to getting started with microservices. Due to having more applications in a single system, initial deployment may get difficult and very complex. And lastly, because of having more runtime instances, idle resource consumption with microservices is also significantly higher. <<monolith>>
+
+[stem]
+++++
+"cost" = (\sum_{i=0}^i n_i)+m
+++++
+
+
+This formula describes the resource consumption of a monolith where stem:[n_i] is the resource consumption of a layer (at idle) and stem:[m] is the resource consumption of a runtime instance. As one can see, there is only one runtime instance, no matter how many layers there are.
+
+[stem]
+++++
+"cost" = \sum_{i=0}^i (n_i+m)
+++++
+
+This formula describes the resource consumption of a system built on microservice architecture. Here, the cost of the runtime instance is added to every layer (or in that case service) one adds to the system.
 
 The architecture for a system which builds upon a microservice architecture could look like this:
 
 .Netflix microservice architecture stack
 [#img-microservices]
 [caption="Figure 2: "]
-image::../images/MicroserviceArchitectureSpring.png[]
+image::../images/MicroserviceArchitectureSpring.png[align=center]
 
 This implementation of the microservice architecture utilizes the Netflix stack. The Netflix stack is a collection of libraries to make dealing with microservices easier. At the top of the architecture, there is the API gateway (the service that forwards requests to the services based on their route). Down below, there are the actual services with their corresponding databases (Couchbase in this particular example). Microservices do not always need to have their own database, but can also all have the same database.
 
 === Serverless Architectures
+
+Serverless architecture was created out of the need for more efficient scalability out-of-the-box. 
+//TODO
 
 == Scaling Architectures in Distributed Systems
 
@@ -135,3 +154,4 @@ This implementation of the microservice architecture utilizes the Netflix stack.
 - [[[microservices-fowler,7]]] Microservices: https://martinfowler.com/articles/microservices.html
 - [[[microservices-medium,8]]] Talking microservices with the man who made Netflix’s cloud famous: https://medium.com/s-c-a-l-e/talking-microservices-with-the-man-who-made-netflix-s-cloud-famous-1032689afed3
 - [[[microservices-cicd,9]]] Continuous Deployment and Monitoring of Microservices - DevOps.com: https://devops.com/continuous-deployment-monitoring-microservices/
+- [[[microservices-dzone,10]]] - Monolithic vs Microservice Architecture - DZone Integration: https://dzone.com/articles/monolithic-vs-microservice-architecture
