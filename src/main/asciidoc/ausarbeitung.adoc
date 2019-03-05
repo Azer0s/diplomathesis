@@ -82,15 +82,14 @@ The added complexity of having to deal with distributed systems and inter-servic
 
 [stem]
 ++++
-"cost" = (\sum_{i=0}^i n_i)+m
+c_"mon" = (\sum_{i=0}^l n_i)+m
 ++++
 
-
-This formula describes the resource consumption of a monolith where stem:[n_i] is the resource consumption of a layer (at idle) and stem:[m] is the resource consumption of a runtime instance. As one can see, there is only one runtime instance, no matter how many layers there are.
+This formula describes the resource consumption of a monolith where stem:[n_i] is the resource consumption of a layer (at idle), stem:[l] is the number of layers and stem:[m] is the resource consumption of a runtime instance. As one can see, there is only one runtime instance, no matter how many layers there are.
 
 [stem]
 ++++
-"cost" = \sum_{i=0}^i (n_i+m)
+c_"ms" = \sum_{i=0}^l (n_i+m)
 ++++
 
 This formula describes the resource consumption of a system built on microservice architecture. Here, the cost of the runtime instance is added to every layer (or in that case service) one adds to the system.
