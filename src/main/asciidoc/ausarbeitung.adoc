@@ -55,7 +55,6 @@ A typical monolithic architecture stack from Microsoft could look like so:
 
 .Microsofts monolithic architecture stack
 [#img-msstack]
-[.center]
 [caption="Figure 2: "]
 image::../images/MonolithicArchitectureMicrosoft.png[align=center]
 
@@ -142,7 +141,23 @@ Scaling serverless systems looks very similar to microservice scaling. The major
 
 == Scaling Across Datacenters
 
-//TODO: Write about DC/OS, Kubernetes; explain Cloud concepts
+When scaling applications, one can reach the limit of their own data center quite fast. To overcome the limits of on-premise compute resources, people often rent compute resources in external data centers and clouds like the Google Cloud <<gcloud>>, Amazon AWS <<aws>> or Microsoft Azure <<azure>>.
+
+This "computation-outsourcing" is often referred to as a "hybrid cloud" compared to having all compute resources on-premise ("private cloud") or having all compute resources in the cloud or external data centers ("public cloud" or "cloud native").
+
+Although hybrid and public cloud systems seem to solve many problems with private cloud computing, like having to maintain less hardware yourself, being cheaper (to a certain point <<public-vs-private-cloud>>) and having SLA's in place which ensure uptime <<public-cloud-pro>>, there are some difficulties in hybrid/public clouds.
+
+Things like integration complexity, network design or scale management can complicate a deployment or prevent a successful deployment altogether. <<hybrid-cloud-challenges>>
+
+To overcome these problems many companies launched their own day-2 <<day-2>> management solutions like DC/OS <<dcos>> <<why-dcos>> or OpenShift <<openshift>>.
+
+.DCOS Hybrid cloud
+[#img-dcoshybrid]
+[.center]
+[caption="Figure 3: "]
+image::../images/DCOSHybrid.jpg[align=center]
+
+This image shows a DC/OS cluster which is deployed on a hybrid cloud. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
 
 == Implementation of Social Networks
 
@@ -190,3 +205,14 @@ Scaling serverless systems looks very similar to microservice scaling. The major
 - [[[microservices-medium,8]]] Talking microservices with the man who made Netflix’s cloud famous: https://medium.com/s-c-a-l-e/talking-microservices-with-the-man-who-made-netflix-s-cloud-famous-1032689afed3
 - [[[microservices-cicd,9]]] Continuous Deployment and Monitoring of Microservices - DevOps.com: https://devops.com/continuous-deployment-monitoring-microservices/
 - [[[microservices-dzone,10]]] - Monolithic vs Microservice Architecture - DZone Integration: https://dzone.com/articles/monolithic-vs-microservice-architecture
+- [[[gcloud,11]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/
+- [[[aws, 12]]] - Amazon Web Services (AWS) - Cloud Computing Services: https://aws.amazon.com/
+- [[[azure,13]]] - Microsoft Azure Cloud Computing Platform & Services: https://azure.microsoft.com/en-us/
+- [[[public-vs-private-cloud, 14]]] - Is there a point where a private cloud is cheaper than the public cloud? | Network World: https://www.networkworld.com/article/2825994/is-there-a-point-where-a-private-cloud-is-cheaper-than-the-public-cloud.html
+- [[[public-cloud-pro, 15]]] 10 business benefits of moving to public cloud: https://www.clariontech.com/blog/10-business-benefits-of-moving-to-public-cloud
+- [[[hybrid-cloud-challenges, 16]]] What Are The Major Challenges Of Adopting A Hybrid Cloud Approach? - MiCORE Solutions: https://micoresolutions.com/major-challenges-adopting-hybrid-cloud-approach/
+- [[[day-2, 17]]] Defining Day-2 Operations - DZone Agile: https://dzone.com/articles/defining-day-2-operations
+- [[[dcos, 18]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/
+- [[[why-dcos, 19]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
+- [[[openshift, 20]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
+- [[[orchestration-wiki, 21]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
