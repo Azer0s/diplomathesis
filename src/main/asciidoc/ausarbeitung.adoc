@@ -159,6 +159,12 @@ image::../images/DCOSHybrid.jpg[align=center]
 
 This image shows a DC/OS cluster which is deployed on a hybrid cloud. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
 
+== Cloud architecture in Initiative Interchange
+
+As we wanted low latency access for all of our users (including, but not limited to,  users in Canada , US, El Salvador, Mexico, Brazil, Argentina, Uruguay, Venezuela, Peru, Austria, Switzerland, Germany, France, Italy and Ukraine) and did not have enough money to launch a private cloud or enough knowledge to design our own public cloud infrastructure, we chose to deploy our application on AWS and utilize AWS infrastructure services (load balancing via AWS ELB <<aws-elb>>; networking via AWS VPC <<aws-vpc>>; global load balancing and DNS resolving via AWS Route 53 <<aws-r53>>; VMs on AWS EC2 <<aws-ec2>>) to our advantage.
+
+Our initial approach was using DigitialOcea <<digitalocean>>  with DC/OS. This solution would have given us finer control over our application and VMs, and even though DigitalOcean was cheaper (8 CPUs, 32 GB RAM - DigitalOcean<<do-price>>: $0.238/hr; AWS<<aws-price>>: $0.384/hr), it was ultimately written off as it would have been more complicated to set up and did not offer the same enterprise grade features and locations as AWS did.
+
 == Implementation of Social Networks
 
 //TODO: Historic implementations: Facebook, MySpace, IRC - social network architectures over the years
@@ -216,3 +222,10 @@ This image shows a DC/OS cluster which is deployed on a hybrid cloud. Some nodes
 - [[[why-dcos, 19]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
 - [[[openshift, 20]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
 - [[[orchestration-wiki, 21]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
+- [[[aws-elb, 22]]] https://aws.amazon.com/de/elasticloadbalancing/
+- [[[aws-vpc, 23]]]
+- [[[aws-r53, 24]]]
+- [[[aws-ec2, 25]]]
+- [[[digitalocean, 26]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
+- [[[do-price, 27]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
+- [[[aws-price, 28]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
