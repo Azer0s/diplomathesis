@@ -12,8 +12,6 @@ ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
 // this renders a dynamic table of content
 :toc:
 
-== Abstract
-
 == Introduction
 
 === Distributed Systems
@@ -21,6 +19,8 @@ ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
 === System Architectures
 
 === Structure of this Thesis
+
+== Abstract
 
 <<<
 
@@ -89,7 +89,7 @@ This formula describes the resource consumption of a monolith where stem:[n_i] i
 
 [stem]
 ++++
-c_"ms" = \sum_{i=0}^l (n_i+m)
+c_"ms" = \sum_{i=0}^l (n_i+m_i)
 ++++
 
 This formula describes the resource consumption of a system built on microservice architecture. Here, the cost of the runtime instance is added to every layer (or in that case service) one adds to the system.
@@ -105,28 +105,62 @@ This implementation of the microservice architecture utilizes the Netflix stack.
 
 === Serverless Architectures
 
-Serverless architecture was created out of the need for more efficient scalability out-of-the-box. 
+Serverless architecture was created out of the need for more efficient scalability out-of-the-box.
 //TODO
 
 == Scaling Architectures in Distributed Systems
 
 === Monolithic
 
+Since the monolithic architecture only scales through a replicated database, the cost function for a scaled monolith where stem:[s] is the number of machines the monolith is running on, stem:[c_{lb}] is the cost of the load-balancing forward and stem:[c_{"net"}] is the cost of the network communication, could look like so:
+
+[stem]
+++++
+c_{"scaled"_{"mon"}} = s*((\sum_{i=0}^l n_i)+m) + b + nc
+++++
+
+Even though, scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
+
 === Microservices
+
+Microservice architecture, on the other hand, scales both through the replication of th e database, as well as the replication of individual services (based on the load of these services).
+
+This means that the runtime cost of a system utilizing microservice architecture could be described as such:
+
+[stem]
+++++
+c_{"scaled"_{ms}} = \sum_{i=0}^s(\sum_{j = 0}^{ms_{"total"}} (ms_{ij}*(n_j+m_j))) + c_{lb} + c_{"net"}
+++++
+
+Where stem:[ms_"total"] is the number of individual microservices, stem:[ms_{ij}] is the number of instances of a specific microservice on a specific machine.
+
+As one can deduct from the formulae above, scaling a monolith can be less expensive than scaling microservices if said microservices are all scaled at the same rate. This barely ever happens in a real production system, thus microservice architecture, with a varying scaling rate of each microservice, is often preferred over monolithic architecture.
 
 === Serverless
 
 == Scaling Across Datacenters
 
+//TODO: Write about DC/OS, Kubernetes; explain Cloud concepts
+
 == Implementation of Social Networks
+
+//TODO: Historic implementations: Facebook, MySpace, IRC - social network architectures over the years
 
 === General Aspects on Implementing Social Networks
 
+//TODO: About scalability, security, location (access speed - geo load balancing)
+
 === Initial Microservice Implementation
+
+//TODO: Explain why we chose microservices
 
 ==== System Architecture
 
+//TODO: Add OUR architecture map & explain
+
 ==== Experience
+
+//TODO: Explain that it was too expensive & too much too develop & not enough hr was available
 
 ==== Issues and Limitations
 
