@@ -183,13 +183,37 @@ Our initial approach was using DigitialOcea <<digitalocean>>  with DC/OS. This s
 
 ==== Experience
 
-//TODO: Explain that it was too expensive & too much too develop & not enough hr was available
+//TODO: Explain that there was a lot of support, development was easy and even experimental features (like polyglot persistence) seemed very stable
 
 ==== Issues and Limitations
 
+//TODO: Explain that it was too expensive & too much too develop & not enough hr was available
+
 === Moving to Serverless Implementation
 
+//TODO: Explain that most layers except for domain and persistence were deprecated; new component added: hook (does request verification)
+
 ==== Modified System Architecture
+
+.New Initiative Interchange backend architecture
+[#img-i2awsarch]
+[.center]
+[caption="Figure 4: "]
+image::../images/i2-architecture-aws.png[align=center]
+
+The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
+
+In the bottom-left corner, one can see our global load balancer and DNS web service, AWS Route 53. Here, we register all of our API endpoints and distribute requests based on location.
+
+AWS Cognito (in the bottom-right corner) is responsible for the user management of our application. Initially, we wanted to write our own user management system, but we noticed quickly that using an external, well-tested solution would be both more secure and easier to adopt.
+
+Above AWS Cognito, we have AWS API Gateway. While Route 53 manages requests on a global scale, API Gateway manages requests on a per-location basis. AWS API Gateway is responsible for sending every request to the correct controller, load balancing between internal controller instances (via AWS ELB), control CORS (**C**ross-**O**rigin-**R**esource-**S**haring) rules and manage our application staging.
+
+Next to API Gateway, one can see the three main parts of our application, consisting of AWS Lambda, AWS RDS and AWS Neptune. These components all communicate via AWS VPC. AWS VPC also exposes AWS Lambda to the outside (although this is automatically routed by AWS). AWS Lambda is our serverless runtime, while AWS RDS and AWS Neptune are our two main databases. We kept our polyglot persistence approach from our initial architecture but had to switch out Couchbase with AWS RDS and Neo4j with AWS Neptune for financial reasons. We will switch back too Couchbase and Neo4j as soon as the project gets more funding.
+//TODO: Reference AWS Lambda, Reference AWS RDS, Reference AWS Neptune
+
+The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy *1 (threshold based *2).
+//TODO: Reference https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html *1 and https://hal.inria.fr/hal-01403090/document *2
 
 === Comparison of Microservices and Serverless
 
