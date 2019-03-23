@@ -222,10 +222,10 @@ Our initial approach was using DigitialOcea <<digitalocean>>  with DC/OS. This s
 - [[[why-dcos, 19]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
 - [[[openshift, 20]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
 - [[[orchestration-wiki, 21]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
-- [[[aws-elb, 22]]] https://aws.amazon.com/de/elasticloadbalancing/
-- [[[aws-vpc, 23]]]
-- [[[aws-r53, 24]]]
-- [[[aws-ec2, 25]]]
+- [[[aws-elb, 22]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
+- [[[aws-vpc, 23]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
+- [[[aws-r53, 24]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
+- [[[aws-ec2, 25]]] Amazon EC2: https://aws.amazon.com/ec2/
 - [[[digitalocean, 26]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
 - [[[do-price, 27]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
 - [[[aws-price, 28]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
