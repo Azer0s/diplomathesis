@@ -138,6 +138,8 @@ As one can deduct from the formulae above, scaling a monolith can be less expens
 
 === Serverless
 
+Scaling serverless systems looks very similar to microservice scaling. The major difference here is, of course, the unit of compute. This means that the base cost of serverless scaling is even higher (because serverless architecture requires more runtime instances to achieve the same result) than for a microservice architecture. Therefore, using serverless makes the most sense when the base cost of a system does not matter and only scaling performance is relevant.
+
 == Scaling Across Datacenters
 
 //TODO: Write about DC/OS, Kubernetes; explain Cloud concepts
