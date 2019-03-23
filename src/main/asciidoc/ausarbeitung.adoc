@@ -123,7 +123,7 @@ Even though, scaling a monolith is quite efficient, due to the fact that one is 
 
 === Microservices
 
-Microservice architecture, on the other hand, scales both through the replication of th e database, as well as the replication of individual services (based on the load of these services).
+Microservice architecture, on the other hand, scales both through the replication of the database, as well as the replication of individual services (based on the load of these services).
 
 This means that the runtime cost of a system utilizing microservice architecture could be described as such:
 
