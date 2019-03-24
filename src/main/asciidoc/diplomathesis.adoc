@@ -10,20 +10,33 @@ v0.1, 2019-03-24
 
 <<<
 
-// this renders a dynamic table of content
-toc::[]
+== Table of contents
+
+<WIP: Asciidoctor really doesn't like PDF for some reason...>
+//TODO: Fix toc
+//:toc:
 
 <<<
 
 == Introduction
 
+<WIP>
+
 === Distributed Systems
+
+<WIP>
 
 === System Architectures
 
+<WIP>
+
 === Structure of this Thesis
 
+<WIP>
+
 == Abstract
+
+<WIP>
 
 <<<
 
@@ -59,7 +72,7 @@ A typical monolithic architecture stack from Microsoft could look like so:
 .Microsofts monolithic architecture stack
 [#img-msstack]
 [caption="Figure 2: "]
-image::../images/MonolithicArchitectureMicrosoft.png[align=center]
+image::../images/MonolithicArchitectureMicrosoft.png[align=center, pdfwidth=8cm]
 
 This is a fairly well known software stack from Microsoft. The described architecture uses ASP.NET as the system framework and Microsoft SQL Server as the database.
 
@@ -107,7 +120,7 @@ This implementation of the microservice architecture utilizes the Netflix stack.
 
 === Serverless Architectures
 
-Serverless architecture was created out of the need for more efficient scalability out-of-the-box.
+Serverless architecture was created out of the need for more efficient scalability out-of-the-box. <WIP>
 //TODO
 
 == Scaling Architectures in Distributed Systems
@@ -214,10 +227,13 @@ This architecture map shows the initial architecture design of our project. The 
 
 Our authentication service (built with Spring Security) is in the layer bellow. Next to the authentication service, one can see all of our other services (also written in Spring Boot). All of our services are connected to a Logstash <<logstash>> instance which collects the logs of our services and sends them to an Elasticsearch <<elastic>> instance on a remote server so they can be analyzed and later visualized by Kibana <<kibana>>.
 
-We have opted to use a polyglot persistence approach. On of our partners requirements was to display the closest relation between stem:[n] people.
+We have opted to use a polyglot persistence approach. Not only was one of our partners requirements was to display the closest relation between stem:[n] people, but we also found a polyglot persistence approach, where one database managed relations and another stores data, the most reliable for a highly scalable social network.
 
 Say we have a group of people, A-J. We want to know the closest connection between A and D (in this case: A-> G -> D).
-[graphviz]
+
+.Friends diagram
+[caption="Figure 6: "]
+[graphviz,frienddia,svg]
 ---------------------------------------------------------------------
 digraph G {
     A -> B;
@@ -242,21 +258,26 @@ digraph G {
 .Neo4j vs MySQL query time comparison
 [#img-neo4jcomp]
 [.center]
-[caption="Figure 6: "]
-image::../images/neo4j-oracle-performance-comparison.png[align=center]
+[caption="Figure 7: "]
+image::../images/neo4j-vs-mysql.PNG[align=center]
 
-The graph above shows the response time of both MySQL as well as Neo4j for such a use-case in a database with 1,000,000 users. <<neo4j-mysql-friends>>
+The graph above shows the response time of both MySQL as well as Neo4j for such a use-case in a database with 1,000,000 users <<neo4j-mysql-friends>>. As one can see, the relational database did not even finish on a depth of 5.
+
+We chose Couchbase <<couchbase>> because of its XDCR (**C**ross-**D**ata-**C**enter-**R**eplication), full-text-search and high-availability features.
 
 ==== Experience
 
+<WIP>
 //TODO: Explain that there was a lot of support, development was easy and even experimental features (like polyglot persistence) seemed very stable
 
 ==== Issues and Limitations
 
+<WIP>
 //TODO: Explain that it was too expensive & too much too develop & not enough hr was available
 
 === Moving to Serverless Implementation
 
+<WIP>
 //TODO: Explain that most layers except for domain and persistence were deprecated; new component added: hook (does request verification)
 
 ==== Modified System Architecture
@@ -264,7 +285,7 @@ The graph above shows the response time of both MySQL as well as Neo4j for such 
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
 [.center]
-[caption="Figure 7: "]
+[caption="Figure 8: "]
 image::../images/i2-architecture-aws.png[align=center]
 
 The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
@@ -283,9 +304,15 @@ The yellow arrows bellow our main components symbolize the automatic scaling asp
 
 === Comparison of Microservices and Serverless
 
+<WIP>
+
 == Results and Learnings
 
+<WIP>
+
 == Conclusion
+
+<WIP>
 
 <<<
 [bibliography]
@@ -337,3 +364,4 @@ The yellow arrows bellow our main components symbolize the automatic scaling asp
 - [[[elastic, 44]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
 - [[[kibana, 45]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
 - [[[neo4j-mysql-friends, 46]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
+- [[[couchbase, 47]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
