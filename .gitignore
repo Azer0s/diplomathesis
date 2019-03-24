@@ -8,3 +8,5 @@ target/
 
 # asciidoc temp stuff
 .asciidoctor
+
+build/

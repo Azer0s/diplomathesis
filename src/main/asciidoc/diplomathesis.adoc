@@ -1,16 +1,19 @@
 = Microservice Architecture and Distributed Systems
 Ariel Simulevski <ariel@simulevski.at>
-v1.0, 2018-12-31
-:example-caption!:
+v0.1, 2019-03-24
+:toc: macro
+:math:
 :media: prepress
 :icons: font
 :source-highlighter: rouge
+:stem: latexmath
 
-ifdef::backend-pdf[:imagesoutdir: ../../../build/asciidoc/{backend}/images]
-ifdef::backend-pdf[:imagesdir: ../../../build/asciidoc/{backend}/images]
+<<<
 
 // this renders a dynamic table of content
-:toc:
+toc::[]
+
+<<<
 
 == Introduction
 
@@ -81,14 +84,14 @@ The added complexity of having to deal with distributed systems and inter-servic
 
 [stem]
 ++++
-c_"mon" = (\sum_{i=0}^l n_i)+m
+c_{mon} = (\sum_{i=0}^l n_i)+m
 ++++
 
 This formula describes the resource consumption of a monolith where stem:[n_i] is the resource consumption of a layer (at idle), stem:[l] is the number of layers and stem:[m] is the resource consumption of a runtime instance. As one can see, there is only one runtime instance, no matter how many layers there are.
 
 [stem]
 ++++
-c_"ms" = \sum_{i=0}^l (n_i+m_i)
+c_{ms} = \sum_{i=0}^l (n_i+m_i)
 ++++
 
 This formula describes the resource consumption of a system built on microservice architecture. Here, the cost of the runtime instance is added to every layer (or in that case service) one adds to the system.
@@ -111,11 +114,11 @@ Serverless architecture was created out of the need for more efficient scalabili
 
 === Monolithic
 
-Since the monolithic architecture only scales through a replicated database, the cost function for a scaled monolith where stem:[s] is the number of machines the monolith is running on, stem:[c_{lb}] is the cost of the load-balancing forward and stem:[c_{"net"}] is the cost of the network communication, could look like so:
+Since the monolithic architecture only scales through a replicated database, the cost function for a scaled monolith where stem:[s] is the number of machines the monolith is running on, stem:[c_{lb}] is the cost of the load-balancing forward and stem:[c_{net}] is the cost of the network communication, could look like so:
 
 [stem]
 ++++
-c_{"scaled"_{"mon"}} = s*((\sum_{i=0}^l n_i)+m) + b + nc
+c_{scaled_{mon}} = s*((\sum_{i=0}^l n_i)+m) + b + nc
 ++++
 
 Even though, scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
@@ -128,10 +131,10 @@ This means that the runtime cost of a system utilizing microservice architecture
 
 [stem]
 ++++
-c_{"scaled"_{ms}} = \sum_{i=0}^s(\sum_{j = 0}^{ms_{"total"}} (ms_{ij}*(n_j+m_j))) + c_{lb} + c_{"net"}
+c_{scaled_{ms}} = \sum_{i=0}^s(\sum_{j = 0}^{ms_{total}} (ms_{ij}*(n_j+m_j))) + c_{lb} + c_{net}
 ++++
 
-Where stem:[ms_"total"] is the number of individual microservices, stem:[ms_{ij}] is the number of instances of a specific microservice on a specific machine.
+Where stem:[ms_total] is the number of individual microservices, stem:[ms_{ij}] is the number of instances of a specific microservice on a specific machine.
 
 As one can deduct from the formulae above, scaling a monolith can be less expensive than scaling microservices if said microservices are all scaled at the same rate. This barely ever happens in a real production system, thus microservice architecture, with a varying scaling rate of each microservice, is often preferred over monolithic architecture.
 
@@ -201,14 +204,48 @@ Microservice seemed like the only feasible option since we were not aware of ser
 
 ==== System Architecture
 
-//TODO: Add OUR architecture map & explain
 .Initial Initiative Interchange backend architecture
 [#img-i2springarch]
 [.center]
 [caption="Figure 5: "]
 image::../images/i2-architecture-spring.png[align=center]
 
-This architecture map shows the initial architecture design of our project.
+This architecture map shows the initial architecture design of our project. The underlying technology we are using is Spring Boot <<spring>>, a Java framework for enterprise-grade web applications. At the top of the map, one can see our API gateway and proxy: Netflix Zuul <<netflix-zuul>>. All services (including our authentication service) register to Zuul via Netflix Eureka <<netflix-eureka>>, a registry service for Spring Boot microservices.
+
+Our authentication service (built with Spring Security) is in the layer bellow. Next to the authentication service, one can see all of our other services (also written in Spring Boot). All of our services are connected to a Logstash <<logstash>> instance which collects the logs of our services and sends them to an Elasticsearch <<elastic>> instance on a remote server so they can be analyzed and later visualized by Kibana <<kibana>>.
+
+We have opted to use a polyglot persistence approach. On of our partners requirements was to display the closest relation between stem:[n] people.
+
+Say we have a group of people, A-J. We want to know the closest connection between A and D (in this case: A-> G -> D).
+[graphviz]
+---------------------------------------------------------------------
+digraph G {
+    A -> B;
+    A -> F;
+    A -> G;
+    F -> E;
+    B -> C;
+    B -> J;
+    J -> G;
+    B -> E;
+    F -> I;
+    I -> H;
+    E -> D;
+    E -> H;
+    H -> D;
+    C -> G;
+    G -> D;
+    C -> D;
+}
+---------------------------------------------------------------------
+
+.Neo4j vs MySQL query time comparison
+[#img-neo4jcomp]
+[.center]
+[caption="Figure 6: "]
+image::../images/neo4j-oracle-performance-comparison.png[align=center]
+
+The graph above shows the response time of both MySQL as well as Neo4j for such a use-case in a database with 1,000,000 users. <<neo4j-mysql-friends>>
 
 ==== Experience
 
@@ -227,7 +264,7 @@ This architecture map shows the initial architecture design of our project.
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
 [.center]
-[caption="Figure 6: "]
+[caption="Figure 7: "]
 image::../images/i2-architecture-aws.png[align=center]
 
 The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
@@ -293,3 +330,10 @@ The yellow arrows bellow our main components symbolize the automatic scaling asp
 - [[[hive, 37]]] The Apache Hive project: https://hive.apache.org/
 - [[[fb-first-server, 38]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
 - [[[dns-lb, 39]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
+- [[[spring, 40]]] Spring Boot: https://spring.io/projects/spring-boot
+- [[[netflix-zuul, 41]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
+- [[[netflix-eureka, 42]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
+- [[[logstash, 43]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
+- [[[elastic, 44]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
+- [[[kibana, 45]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
+- [[[neo4j-mysql-friends, 46]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
