@@ -167,11 +167,31 @@ Our initial approach was using DigitialOcea <<digitalocean>>  with DC/OS. This s
 
 == Implementation of Social Networks
 
-//TODO: Historic implementations: Facebook, MySpace, IRC - social network architectures over the years
+One of the best example of how social network architecture changed over the years is Facebook. Facebook started out with the very common PHP+MySQL stack all running on an Apache WebServer <<apache-server>>. This comes as no surprise as both PHP and MySQL are two of the most used technologies for web development. <<php-usage>> <<mysql-usage>>
+
+Over the years, Facebook has adopted its tech stack to their higher demand but their underlying technology still is PHP and MySQL. Instead of using the Apache WebServer, Facebook developed a PHP runtime which converts PHP into bytecode for HHVM (**H**ip**H**op**V**irtual**M**achine), which then converts said bytecode into native x64 machine code. <<hhvm>>
+
+Facebook has retired using MySQL as a relational database and is now using MySQL as a pure key-value store and Memcached <<memcached>> as a database cache to speed up read performance. <<fb-stack>>
+
+Furthermore, Facebook developed their own storage/retrieval system called Haystack <<haystack-paper>> and is also using Hadoop <<hadoop>> and Hive as their big data storage/computation system. <<fb-stack>>
+
+Facebooks architecture is one of the most impressive tech stacks currently in action. It has developed from a single $85/month server system <<fb-first-server>> to a giant platform with own data centers to fuel their operation. We tried to learn from Facebooks scaling experiences and design our architecture to have first class scaling support.
 
 === General Aspects on Implementing Social Networks
 
-//TODO: About scalability, security, location (access speed - geo load balancing)
+As previously mentioned, scaling is one of the most important challenges a social network faces. While a social network has to be fast and resource-optimized, one also has to keep cost in mind.
+
+Since Initiative Interchange has members in 5 continents, we needed to ensure access speeds for our users.
+
+.Client side load balacing
+[#img-clientlb]
+[.center]
+[caption="Figure 4: "]
+image::../images/client-side-lb.png[align=center]
+
+Initially, we tried to do so by balancing the load from the client side with Netflix Ribbon (as you see in the picture above) but we changed our load balancing strategy to a DNS based one <<dns-lb>>, once we had to revise our backend architecture.
+
+Another important aspect to keep in mind is security. Both user data, as well as servers have to be kept secure. With a privacy-by-design based approach in mind, we tried to carefully design our backend and security strategy to be in line with the EU-GDPR. In the end, we abandoned our initial security strategy and used an external one instead.
 
 === Initial Microservice Implementation
 
@@ -198,7 +218,7 @@ Our initial approach was using DigitialOcea <<digitalocean>>  with DC/OS. This s
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
 [.center]
-[caption="Figure 4: "]
+[caption="Figure 5: "]
 image::../images/i2-architecture-aws.png[align=center]
 
 The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
@@ -253,3 +273,14 @@ The yellow arrows bellow our main components symbolize the automatic scaling asp
 - [[[digitalocean, 26]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
 - [[[do-price, 27]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
 - [[[aws-price, 28]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
+- [[[apache-server, 29]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
+- [[[php-usage, 30]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
+- [[[mysql-usage, 31]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
+- [[[hhvm, 32]]] HHVM | HHVM: https://hhvm.com/
+- [[[memcached, 33]]] memcached - a distributed memory object caching system: http://memcached.org/
+- [[[fb-stack, 34]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
+- [[[haystack-paper, 35]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
+- [[[hadoop, 36]]] The Apache Hadoop project: https://hadoop.apache.org/
+- [[[hive, 37]]] The Apache Hive project: https://hive.apache.org/
+- [[[fb-first-server, 38]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
+- [[[dns-lb, 39]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
