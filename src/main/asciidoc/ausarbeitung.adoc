@@ -195,11 +195,20 @@ Another important aspect to keep in mind is security. Both user data, as well as
 
 === Initial Microservice Implementation
 
-//TODO: Explain why we chose microservices
+To solve all of the above mentioned problems, we wanted to chose a technology with which we were familiar and which was sufficiently mature and advanced to suit even our more unusual design choices (like client side load balancing and polyglot persistence).
+
+Microservice seemed like the only feasible option since we were not aware of serverless technology and a monolithic architecture was not an option since we had to ensure efficient and cost-effective scalability of our platform.
 
 ==== System Architecture
 
 //TODO: Add OUR architecture map & explain
+.Initial Initiative Interchange backend architecture
+[#img-i2springarch]
+[.center]
+[caption="Figure 5: "]
+image::../images/i2-architecture-spring.png[align=center]
+
+This architecture map shows the initial architecture design of our project.
 
 ==== Experience
 
@@ -218,7 +227,7 @@ Another important aspect to keep in mind is security. Both user data, as well as
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
 [.center]
-[caption="Figure 5: "]
+[caption="Figure 6: "]
 image::../images/i2-architecture-aws.png[align=center]
 
 The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
