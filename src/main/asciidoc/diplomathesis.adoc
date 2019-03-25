@@ -123,6 +123,13 @@ This implementation of the microservice architecture utilizes the Netflix stack.
 Serverless architecture was created out of the need for more efficient scalability out-of-the-box. <WIP>
 //TODO
 
+==== Advantages
+
+==== Drawbacks
+
+lock in
+less control (websockets, etc...)
+
 == Scaling Architectures in Distributed Systems
 
 === Monolithic
@@ -155,6 +162,30 @@ As one can deduct from the formulae above, scaling a monolith can be less expens
 
 Scaling serverless systems looks very similar to microservice scaling. The major difference here is, of course, the unit of compute. This means that the base cost of serverless scaling is even higher (because serverless architecture requires more runtime instances to achieve the same result) than for a microservice architecture. Therefore, using serverless makes the most sense when the base cost of a system does not matter and only scaling performance is relevant.
 
+=== Difficulties with scaling
+
+As previously mentioned, both the monolithic architecture as well as microservice architecture do encounter some efficiency problems while scaling. The reason for that are the deployment containers one typically uses when dealing with monolith/microservice scaling (VMs and containers). When scaling VMs or containers, we always deal with threshold based scaling <<threshold-scaling>>. This means that we scale (add or remove) a deployment based on system resources used. Generally, we define both a lower threshold (~25% CPU load) and an upper threshold (~80% CPU load) for our system.
+
+When every instance of our deployment reaches that upper threshold (with equal distributed load balancing, this should happen simultaneously), we add another VM/container to lower the load on other deployment instances to prevent system crashes or downtime.
+
+The graph bellow shows a visual representation of the same computational space utilized in different manners. The white portion of each block symbolizes unused resources (overhead).
+
+.Scaling overhead
+[#img-scalingoverhead]
+[.center]
+[caption="Figure 3: "]
+image::../images/scaling.png[align=center]
+
+This also means, that one can never use more than the upper threshold defined for an operation, thus not utilizing the full potential of ones computational resources. The serverless architecture pattern, solves that problem by shrinking down the unit of compute to the smallest possible size (functions), thus allowing more instances with a higher scaling threshold.
+
+.AWS Lambda Response Time Distribution (P50-P95)
+[#img-lambdaspeed]
+[.center]
+[caption="Figure 4: "]
+image::../images/aws-lambda-p50-p95.png[align=center]
+
+This graph shows the response time of an AWS Lambda function under load. As one can see, the median response (P50) remained stable during the entire test-run with even the 95th and 99th percentile showing close to no variance. <<serverless-scaling>>
+
 == Scaling Across Datacenters
 
 When scaling applications, one can reach the limit of their own data center quite fast. To overcome the limits of on-premise compute resources, people often rent compute resources in external data centers and clouds like the Google Cloud <<gcloud>>, Amazon AWS <<aws>> or Microsoft Azure <<azure>>.
@@ -170,7 +201,7 @@ To overcome these problems many companies launched their own day-2 <<day-2>> man
 .DCOS Hybrid cloud
 [#img-dcoshybrid]
 [.center]
-[caption="Figure 3: "]
+[caption="Figure 5: "]
 image::../images/DCOSHybrid.jpg[align=center]
 
 This image shows a DC/OS cluster which is deployed on a hybrid cloud. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
@@ -202,7 +233,7 @@ Since Initiative Interchange has members in 5 continents, we needed to ensure ac
 .Client side load balacing
 [#img-clientlb]
 [.center]
-[caption="Figure 4: "]
+[caption="Figure 6: "]
 image::../images/client-side-lb.png[align=center]
 
 Initially, we tried to do so by balancing the load from the client side with Netflix Ribbon (as you see in the picture above) but we changed our load balancing strategy to a DNS based one <<dns-lb>>, once we had to revise our backend architecture.
@@ -220,7 +251,7 @@ Microservice seemed like the only feasible option since we were not aware of ser
 .Initial Initiative Interchange backend architecture
 [#img-i2springarch]
 [.center]
-[caption="Figure 5: "]
+[caption="Figure 7: "]
 image::../images/i2-architecture-spring.png[align=center]
 
 This architecture map shows the initial architecture design of our project. The underlying technology we are using is Spring Boot <<spring>>, a Java framework for enterprise-grade web applications. At the top of the map, one can see our API gateway and proxy: Netflix Zuul <<netflix-zuul>>. All services (including our authentication service) register to Zuul via Netflix Eureka <<netflix-eureka>>, a registry service for Spring Boot microservices.
@@ -232,7 +263,7 @@ We have opted to use a polyglot persistence approach. Not only was one of our pa
 Say we have a group of people, A-J. We want to know the closest connection between A and D (in this case: A-> G -> D).
 
 .Friends diagram
-[caption="Figure 6: "]
+[caption="Figure 8: "]
 [graphviz,frienddia,svg]
 ---------------------------------------------------------------------
 digraph G {
@@ -258,7 +289,7 @@ digraph G {
 .Neo4j vs MySQL query time comparison
 [#img-neo4jcomp]
 [.center]
-[caption="Figure 7: "]
+[caption="Figure 9: "]
 image::../images/neo4j-vs-mysql.PNG[align=center]
 
 The graph above shows the response time of both MySQL as well as Neo4j for such a use-case in a database with 1,000,000 users <<neo4j-mysql-friends>>. As one can see, the relational database did not even finish on a depth of 5.
@@ -285,7 +316,7 @@ We chose Couchbase <<couchbase>> because of its XDCR (**C**ross-**D**ata-**C**en
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
 [.center]
-[caption="Figure 8: "]
+[caption="Figure 10: "]
 image::../images/i2-architecture-aws.png[align=center]
 
 The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
@@ -299,8 +330,8 @@ Above AWS Cognito, we have AWS API Gateway. While Route 53 manages requests on a
 Next to API Gateway, one can see the three main parts of our application, consisting of AWS Lambda, AWS RDS and AWS Neptune. These components all communicate via AWS VPC. AWS VPC also exposes AWS Lambda to the outside (although this is automatically routed by AWS). AWS Lambda is our serverless runtime, while AWS RDS and AWS Neptune are our two main databases. We kept our polyglot persistence approach from our initial architecture but had to switch out Couchbase with AWS RDS and Neo4j with AWS Neptune for financial reasons. We will switch back too Couchbase and Neo4j as soon as the project gets more funding.
 //TODO: Reference AWS Lambda, Reference AWS RDS, Reference AWS Neptune
 
-The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy *1 (threshold based *2).
-//TODO: Reference https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html *1 and https://hal.inria.fr/hal-01403090/document *2
+The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy *1 (threshold based <<threshold-scaling>>).
+//TODO: Reference https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html *1
 
 === Comparison of Microservices and Serverless
 
@@ -328,40 +359,42 @@ The yellow arrows bellow our main components symbolize the automatic scaling asp
 - [[[microservices-medium,8]]] Talking microservices with the man who made Netflix’s cloud famous: https://medium.com/s-c-a-l-e/talking-microservices-with-the-man-who-made-netflix-s-cloud-famous-1032689afed3
 - [[[microservices-cicd,9]]] Continuous Deployment and Monitoring of Microservices - DevOps.com: https://devops.com/continuous-deployment-monitoring-microservices/
 - [[[microservices-dzone,10]]] - Monolithic vs Microservice Architecture - DZone Integration: https://dzone.com/articles/monolithic-vs-microservice-architecture
-- [[[gcloud,11]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/
-- [[[aws, 12]]] - Amazon Web Services (AWS) - Cloud Computing Services: https://aws.amazon.com/
-- [[[azure,13]]] - Microsoft Azure Cloud Computing Platform & Services: https://azure.microsoft.com/en-us/
-- [[[public-vs-private-cloud, 14]]] - Is there a point where a private cloud is cheaper than the public cloud? | Network World: https://www.networkworld.com/article/2825994/is-there-a-point-where-a-private-cloud-is-cheaper-than-the-public-cloud.html
-- [[[public-cloud-pro, 15]]] 10 business benefits of moving to public cloud: https://www.clariontech.com/blog/10-business-benefits-of-moving-to-public-cloud
-- [[[hybrid-cloud-challenges, 16]]] What Are The Major Challenges Of Adopting A Hybrid Cloud Approach? - MiCORE Solutions: https://micoresolutions.com/major-challenges-adopting-hybrid-cloud-approach/
-- [[[day-2, 17]]] Defining Day-2 Operations - DZone Agile: https://dzone.com/articles/defining-day-2-operations
-- [[[dcos, 18]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/
-- [[[why-dcos, 19]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
-- [[[openshift, 20]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
-- [[[orchestration-wiki, 21]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
-- [[[aws-elb, 22]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
-- [[[aws-vpc, 23]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
-- [[[aws-r53, 24]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
-- [[[aws-ec2, 25]]] Amazon EC2: https://aws.amazon.com/ec2/
-- [[[digitalocean, 26]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
-- [[[do-price, 27]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
-- [[[aws-price, 28]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
-- [[[apache-server, 29]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
-- [[[php-usage, 30]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
-- [[[mysql-usage, 31]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
-- [[[hhvm, 32]]] HHVM | HHVM: https://hhvm.com/
-- [[[memcached, 33]]] memcached - a distributed memory object caching system: http://memcached.org/
-- [[[fb-stack, 34]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
-- [[[haystack-paper, 35]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
-- [[[hadoop, 36]]] The Apache Hadoop project: https://hadoop.apache.org/
-- [[[hive, 37]]] The Apache Hive project: https://hive.apache.org/
-- [[[fb-first-server, 38]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
-- [[[dns-lb, 39]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
-- [[[spring, 40]]] Spring Boot: https://spring.io/projects/spring-boot
-- [[[netflix-zuul, 41]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
-- [[[netflix-eureka, 42]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
-- [[[logstash, 43]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
-- [[[elastic, 44]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
-- [[[kibana, 45]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
-- [[[neo4j-mysql-friends, 46]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
-- [[[couchbase, 47]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
+- [[[threshold-scaling, 11]]] M. Mohan Murthy, H. Sanjay and Jumnal Anand. Threshold Based Auto Scaling of Virtual Machines in Cloud Environment https://hal.inria.fr/hal-01403090/document
+- [[[serverless-scaling, 12]]] Serverless at Scale: Serving StackOverflow-like Traffic - Binaris Blog: https://blog.binaris.com/serverless-at-scale/
+- [[[gcloud,13]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/
+- [[[aws, 14]]] - Amazon Web Services (AWS) - Cloud Computing Services: https://aws.amazon.com/
+- [[[azure,15]]] - Microsoft Azure Cloud Computing Platform & Services: https://azure.microsoft.com/en-us/
+- [[[public-vs-private-cloud, 16]]] - Is there a point where a private cloud is cheaper than the public cloud? | Network World: https://www.networkworld.com/article/2825994/is-there-a-point-where-a-private-cloud-is-cheaper-than-the-public-cloud.html
+- [[[public-cloud-pro, 17]]] 10 business benefits of moving to public cloud: https://www.clariontech.com/blog/10-business-benefits-of-moving-to-public-cloud
+- [[[hybrid-cloud-challenges, 18]]] What Are The Major Challenges Of Adopting A Hybrid Cloud Approach? - MiCORE Solutions: https://micoresolutions.com/major-challenges-adopting-hybrid-cloud-approach/
+- [[[day-2, 19]]] Defining Day-2 Operations - DZone Agile: https://dzone.com/articles/defining-day-2-operations
+- [[[dcos, 20]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/
+- [[[why-dcos, 21]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
+- [[[openshift, 22]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
+- [[[orchestration-wiki, 23]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
+- [[[aws-elb, 24]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
+- [[[aws-vpc, 25]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
+- [[[aws-r53, 26]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
+- [[[aws-ec2, 27]]] Amazon EC2: https://aws.amazon.com/ec2/
+- [[[digitalocean, 28]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
+- [[[do-price, 29]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
+- [[[aws-price, 30]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
+- [[[apache-server, 31]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
+- [[[php-usage, 32]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
+- [[[mysql-usage, 33]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
+- [[[hhvm, 34]]] HHVM | HHVM: https://hhvm.com/
+- [[[memcached, 35]]] memcached - a distributed memory object caching system: http://memcached.org/
+- [[[fb-stack, 36]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
+- [[[haystack-paper, 37]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
+- [[[hadoop, 38]]] The Apache Hadoop project: https://hadoop.apache.org/
+- [[[hive, 39]]] The Apache Hive project: https://hive.apache.org/
+- [[[fb-first-server, 40]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
+- [[[dns-lb, 41]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
+- [[[spring, 42]]] Spring Boot: https://spring.io/projects/spring-boot
+- [[[netflix-zuul, 43]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
+- [[[netflix-eureka, 44]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
+- [[[logstash, 45]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
+- [[[elastic, 46]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
+- [[[kibana, 47]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
+- [[[neo4j-mysql-friends, 48]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
+- [[[couchbase, 49]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/

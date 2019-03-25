@@ -7,7 +7,7 @@ thesis:
 	@echo "\033[4m\033[1mBuilding thesis\033[0m"
 	@echo
 	@mkdir build
-	@asciidoctor-pdf -r asciidoctor-mathematical -r asciidoctor-diagram src/main/asciidoc/diplomathesis.adoc
+	@asciidoctor-pdf -r asciidoctor-mathematical -r asciidoctor-diagram src/main/asciidoc/diplomathesis.adoc -a mathematical-format=svg
 	@rm src/main/asciidoc/stem*
 	@rm src/main/asciidoc/frienddia*
 	@mv src/main/asciidoc/diplomathesis.pdf build/diplomathesis.pdf
