@@ -72,7 +72,7 @@ A typical monolithic architecture stack from Microsoft could look like so:
 .Microsofts monolithic architecture stack
 [#img-msstack]
 [caption="Figure 2: "]
-image::../images/MonolithicArchitectureMicrosoft.png[align=center, pdfwidth=8cm]
+image::../images/MonolithicArchitectureMicrosoft.png[align=center, pdfwidth=7.4cm]
 
 This is a fairly well known software stack from Microsoft. The described architecture uses ASP.NET as the system framework and Microsoft SQL Server as the database.
 
@@ -268,6 +268,7 @@ Say we have a group of people, A-J. We want to know the closest connection betwe
 
 .Friends diagram
 [caption="Figure 8: "]
+[align=center]
 [graphviz,frienddia,svg]
 ---------------------------------------------------------------------
 digraph G {
