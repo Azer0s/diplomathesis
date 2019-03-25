@@ -32,7 +32,7 @@ v0.1, 2019-03-24
 
 === Structure of this Thesis
 
-
+<WIP>
 
 == Abstract
 
@@ -121,14 +121,18 @@ This implementation of the microservice architecture utilizes the Netflix stack.
 === Serverless Architectures
 
 Serverless architecture was created out of the need for more efficient scalability out-of-the-box. <WIP>
-//TODO
+//TODO: Bring up hype cycle: in 2020 serverless is at its maturity
 
 ==== Advantages
 
+//scaling...lol
+//easy to develop
+//no maintainance
+
 ==== Drawbacks
 
-lock in
-less control (websockets, etc...)
+//lock in
+//less control (websockets, etc...)
 
 == Scaling Architectures in Distributed Systems
 
@@ -397,10 +401,11 @@ This is made possible by the modularity of serverless functions. A key differenc
 == Results and Learnings
 
 <WIP>
+//TODO
 
 == Conclusion
 
-<WIP>
+This paper describes our findings while developing a highly scalable social media network. While we can not draw a definite conclusion on what software architecture is ultimately better, we found the newer, less mature serverless architecture pattern to be very efficient while scaling, easy to develop and to maintain. Serverless technology is very promising, if a bit hard to get into. With time, and as the technology matures, most of its flaws will fade away, giving the serverless architecture pattern the chance to be a real competitor to microservice architecture and eventually deprecate the latter.
 
 <<<
 [bibliography]
