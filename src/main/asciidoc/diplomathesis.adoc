@@ -32,7 +32,7 @@ v0.1, 2019-03-24
 
 === Structure of this Thesis
 
-<WIP>
+
 
 == Abstract
 
@@ -176,7 +176,7 @@ The graph bellow shows a visual representation of the same computational space u
 [caption="Figure 3: "]
 image::../images/scaling.png[align=center]
 
-This also means, that one can never use more than the upper threshold defined for an operation, thus not utilizing the full potential of ones computational resources. The serverless architecture pattern, solves that problem by shrinking down the unit of compute to the smallest possible size (functions), thus allowing more instances with a higher scaling threshold.
+This also means, that one can never use more than the upper threshold defined for an operation, thus not utilizing the full potential of ones computational resources. The serverless architecture pattern solves that problem by shrinking down the unit of compute to the smallest possible size (functions), thus allowing more instances with a higher scaling threshold.
 
 .AWS Lambda Response Time Distribution (P50-P95)
 [#img-lambdaspeed]
@@ -298,18 +298,73 @@ We chose Couchbase <<couchbase>> because of its XDCR (**C**ross-**D**ata-**C**en
 
 ==== Experience
 
-<WIP>
-//TODO: Explain that there was a lot of support, development was easy and even experimental features (like polyglot persistence) seemed very stable
+Our experience with Spring Boot and the Netflix stack was very pleasant. There is a plenty of documentation, both from Pivotal <<spring-pivotal>> and external sources <<spring-baeldung>>. We did not encounter any instabilities and even more experimental aspects of our project, like polyglot persistence, were very stable.
 
 ==== Issues and Limitations
 
-<WIP>
-//TODO: Explain that it was too expensive & too much too develop & not enough hr was available
+The major issues we encountered were not the fault of our technology stack. A couple of sprints into our project, one of our team-members had to leave our team. Due to that circumstance, we did not have enough human resources to complete the backend in time. Additionally, our project partner Initiative Interchange <<ii>>, a daughter organizations of Rotary International <<rotary>> and Unicef <<unicef>> partner, was not able to secure the necessary funding to deploy the project.
 
 === Moving to Serverless Implementation
 
-<WIP>
-//TODO: Explain that most layers except for domain and persistence were deprecated; new component added: hook (does request verification)
+Since we needed a new solution which would allow us to develop and deploy the backend with less human and financial resources than planned, we started research on alternatives to Spring Boot and, eventually, microservice architecture. In late December of 2018, we discovered serverless architecture and started assessing whether or not it would be a good fit for us and our project.
+
+Most of our time savings came from not having to configure AWS Lambda. The scaling aspect of AWS Lambda <<aws-lambda>> is a built-in feature. Both service discovery and service gateway are managed by AWS and the AWS Route 53 requires very minimal configuration for the global load balancing.
+
+Porting existing code to serverless was fairly trivial. Layered architecture still exists in a serverless environment, if a bit smaller. The major difference we had to get used to was the big focus on callback functions. The Spring Boot controllers were swapped with serverless hooks.
+
+==== Spring Boot JPA Repository vs Node.js MySQL repository
+
+.Repository in Java with Spring JPA
+```java
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    Product findByName(String productName);
+}
+```
+
+.Repository in JavaScript
+```js
+class ProductRepository{
+    constructor(con){
+        this.con = con;
+    }
+
+    findByName(name, callback){
+        this.con.connect();
+
+        this.con.query("SELECT * FROM `Product` WHERE `Name` = ?", [name],
+        function (error, results, fields){
+            if (error) callback(error,null);
+            callback(null,results);
+        });
+
+        this.con.end();
+    }
+}
+```
+
+==== Spring Boot Controller vs Node.js AWS Lambda Hook
+
+.Helloworld controller in Java with Spring
+```java
+@Controller
+@RequestMapping("/")
+public class HelloWorldController {
+
+    @GetMapping
+    @ReponseBody
+    public String index() {
+        return "Hello world!";
+    }
+}
+```
+
+.Helloworld hook in JavaScript with AWS Lambda
+```js
+exports.handler = function(event, context, callback) {
+    callback(null, "Hello world!");
+}
+```
 
 ==== Modified System Architecture
 
@@ -327,15 +382,17 @@ AWS Cognito (in the bottom-right corner) is responsible for the user management 
 
 Above AWS Cognito, we have AWS API Gateway. While Route 53 manages requests on a global scale, API Gateway manages requests on a per-location basis. AWS API Gateway is responsible for sending every request to the correct controller, load balancing between internal controller instances (via AWS ELB), control CORS (**C**ross-**O**rigin-**R**esource-**S**haring) rules and manage our application staging.
 
-Next to API Gateway, one can see the three main parts of our application, consisting of AWS Lambda, AWS RDS and AWS Neptune. These components all communicate via AWS VPC. AWS VPC also exposes AWS Lambda to the outside (although this is automatically routed by AWS). AWS Lambda is our serverless runtime, while AWS RDS and AWS Neptune are our two main databases. We kept our polyglot persistence approach from our initial architecture but had to switch out Couchbase with AWS RDS and Neo4j with AWS Neptune for financial reasons. We will switch back too Couchbase and Neo4j as soon as the project gets more funding.
-//TODO: Reference AWS Lambda, Reference AWS RDS, Reference AWS Neptune
+Next to API Gateway, one can see the three main parts of our application, consisting of AWS Lambda, AWS RDS and AWS Neptune. These components all communicate via AWS VPC. AWS VPC also exposes AWS Lambda to the outside (although this is automatically routed by AWS). AWS Lambda is our serverless runtime, while AWS RDS and AWS Neptune are our two main databases. We kept our polyglot persistence approach from our initial architecture but had to switch out Couchbase with AWS RDS <<aws-rds>> and Neo4j with AWS Neptune <<aws-neptune>> for financial reasons. We will switch back too Couchbase and Neo4j as soon as the project gets more funding.
 
-The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy *1 (threshold based <<threshold-scaling>>).
-//TODO: Reference https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html *1
+The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy <<aws-scaling>> (threshold based <<threshold-scaling>>).
 
 === Comparison of Microservices and Serverless
 
-<WIP>
+When working with serverless architecture in AWS Lambda, we encountered some major differences to microservice architecture in Java with Spring Boot.
+
+The biggest of them being the language agnostic nature of the serverless architecture pattern. It is definitely possible to use multiple languages in microservice architecture, but generally, mixing languages within a service is frowned upon. Due to the fact that serverless functions are closed system (every function is deployed on its own), polyglotism in within the serverless pattern is not only possible, but also easier to develop and to maintain.
+
+This is made possible by the modularity of serverless functions. A key difference to microservices which allows rapid development and deployment of serverless applications.
 
 == Results and Learnings
 
@@ -398,3 +455,12 @@ The yellow arrows bellow our main components symbolize the automatic scaling asp
 - [[[kibana, 47]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
 - [[[neo4j-mysql-friends, 48]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
 - [[[couchbase, 49]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
+- [[[spring-pivotal, 50]]] Guides: https://spring.io/guides
+- [[[spring-baeldung, 51]]] Baeldung | Java, Spring and Web Development tutorials: https://www.baeldung.com/
+- [[[ii,52]]] Initiative Interchange: https://www.initiative-interchange.org/
+- [[[rotary, 53]]] Home | Rotary International: https://www.rotary.org/en
+- [[[unicef, 54]]] Home page | UNICEF: https://www.unicef.org/
+- [[[aws-lambda, 55]]] AWS Lambda – Serverless Compute - Amazon Web Services: https://aws.amazon.com/lambda/
+- [[[aws-rds, 56]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/
+- [[[aws-neptune, 57]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/
+- [[[aws-scaling, 58]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
