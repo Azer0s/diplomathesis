@@ -10,31 +10,31 @@ v0.1, 2019-03-24
 
 <<<
 
-== Introduction
+== 1. Introduction
 
 With the rapid move to cloud technologies, architectural patterns and software design have become an increasingly important aspect of the cloud native movement. We have been given the task of designing a social media network for our partner Initiative Interchange <<ii>>, a daughter organizations of Rotary International <<rotary>> and Unicef <<unicef>> partner. Since the organization has members all over the world, the social network was supposed to be both highly scalable and available (with constant access speeds all across the globe). This paper shows the design process and theoretical aspects of such an architecture.
 
-=== Distributed Systems
+=== 1.1 Distributed Systems
 
 <WIP>
 
-=== System Architectures
+=== 1.2 System Architectures
 
 <WIP>
 
-=== Structure of this Thesis
+=== 1.3 Structure of this Thesis
 
 In this thesis, I will first show the theoretics of designing a cloud architecture. After that, I will go into general aspects of designing and developing a social network and analyze an existing social networking platform. I will conclude with both our initial approach and final cloud design.
 
-== Abstract
+== 2. Abstract
 
 <WIP>
 
 <<<
 
-== Application Architectures
+== 3. Application Architectures
 
-=== Monolithic Architectures
+=== 3.1 Monolithic Architectures
 
 A monolithic architecture describes the structure of a system which houses the entire backend of a platform. Every part of the backend (persistence, business-logic, UI, etc...) is contained in this single program. <<monolith>>
 
@@ -45,13 +45,13 @@ One central paradigm of monoliths is layered architecture. Layered architecture 
 [caption="Figure 1: "]
 image::../images/LayeredArchitecture.png[align=center]
 
-==== Advantages
+==== 3.1.1 Advantages
 
 Although the concept of monolithic architecture is quite old, it still has decisive advantages over other architectures.
 
 Due to the simplicity in architectural design, a monolith is very easy to develop, the layered architecture also allows for the application to be simple to test and the deployment of monolithic systems is also fairly straightforward: the binary of the program simply has to be copied to the target machine and then be executed. <<monolith>>
 
-==== Drawbacks
+==== 3.1.2 Drawbacks
 
 That being said, due to some aspects of monolithic architecture, this architectural style has become unviable to most and even an antipattern to some. <<monolith-codingthearchitecture>>
 
@@ -68,7 +68,7 @@ image::../images/MonolithicArchitectureMicrosoft.png[align=center, pdfwidth=7.4c
 
 This is a fairly well known software stack from Microsoft. The described architecture uses ASP.NET as the system framework and Microsoft SQL Server as the database.
 
-=== Microservice Architectures
+=== 3.2 Microservice Architectures
 
 Microservices have been the "architectural answer" to monoliths. Coined by Dr. Peter Rogers during a cloud computing conference, the term "micro web services" first described the idea of loosely coupled services which run independently and can each be maintained and developed individually. <<microservices-history>>
 
@@ -77,11 +77,11 @@ The term "microservice" was first used at a conference in Venice in 2011. In 201
 As Lewis described in 2012, microservices are "small with a single responsibility". This means that each microservice (or each application in the system) only does a single thing. According to Lewis, a microservice should be "Small enough to fit in [ones] head". The usecases of a single microservice are supposed to be so small, that one can think about all of them at the same time.
 
 
-==== Advantages
+==== 3.2.1 Advantages
 
 Microservices were always seen as a successor to monoliths. <<microservices-history>> Therefore, they attempt to solve many of the problems that the monolithic architecture has. Due to each microservice being, relatively, small, the risk of a system becoming too complex for new developers to understand is kept to a minimum. The small, single responsibility nature of microservices allows for on-the-fly updating through CI/CD. Furthermore, microservices allow for language agnostic development. That means that one can use multiple programming languages and runtimes in one project to best suit the need of specific usecases/functions. <<monolith>> <<microservices-cicd>> <<microservices-dzone>>
 
-==== Drawbacks
+==== 3.2.2 Drawbacks
 
 Of course, microservices are not the be-all and end-all of backend architecture and therefore do have some problems.
 
@@ -93,6 +93,8 @@ c_{mon} = (\sum_{i=0}^l n_i)+m
 ++++
 
 This formula describes the resource consumption of a monolith where stem:[n_i] is the resource consumption of a layer (at idle), stem:[l] is the number of layers and stem:[m] is the resource consumption of a runtime instance. As one can see, there is only one runtime instance, no matter how many layers there are.
+
+<<<
 
 [stem]
 ++++
@@ -110,7 +112,8 @@ image::../images/MicroserviceArchitectureSpring.png[align=center]
 
 This implementation of the microservice architecture utilizes the Netflix stack. The Netflix stack is a collection of libraries to make dealing with microservices easier. At the top of the architecture, there is the API gateway (the service that forwards requests to the services based on their route). Down below, there are the actual services with their corresponding databases (Couchbase in this particular example). Microservices do not always need to have their own database, but can also all have the same database.
 
-=== Serverless Architectures
+<<<
+=== 3.3 Serverless Architectures
 
 Serverless architecture was created out of the need for more efficient scalability out-of-the-box <<fowler-serverless>>. This is achieved by sizing down the unit of compute from services to so-called "functions", "hooks" or "lambdas" (the smallest possible unit of compute size in high level programming) <<fowler-serverless>> <<serverless-bw>>. Essentially, the serverless architecture pattern is a kind of microservice architecture (every serverless function still has a layered architecture, if a very cut-down one).
 
@@ -132,20 +135,20 @@ This diagram shows the flow of a serverless function <<serverless-cb>>. The disp
 
 The difference to microservices here is that the serverless function can not do anything else than that one specific task, while a microservice of a specific domain can do multiple tasks and fulfill multiple use-cases.
 
-==== Advantages
+==== 3.3.1 Advantages
 
 //scaling...lol
 //easy to develop
 //no maintainance
 
-==== Drawbacks
+==== 3.3.2 Drawbacks
 
 //lock in
 //less control (websockets, etc...)
 
-== Scaling Architectures in Distributed Systems
+== 4. Scaling Architectures in Distributed Systems
 
-=== Monolithic
+=== 4.1 Monolithic
 
 Since the monolithic architecture only scales through a replicated database, the cost function for a scaled monolith where stem:[s] is the number of machines the monolith is running on, stem:[c_{lb}] is the cost of the load-balancing forward and stem:[c_{net}] is the cost of the network communication, could look like so:
 
@@ -156,7 +159,7 @@ c_{scaled_{mon}} = s*((\sum_{i=0}^l n_i)+m) + b + nc
 
 Even though, scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
 
-=== Microservices
+=== 4.2 Microservices
 
 Microservice architecture, on the other hand, scales both through the replication of the database, as well as the replication of individual services (based on the load of these services).
 
@@ -171,11 +174,11 @@ Where stem:[ms_total] is the number of individual microservices, stem:[ms_{ij}] 
 
 As one can deduct from the formulae above, scaling a monolith can be less expensive than scaling microservices if said microservices are all scaled at the same rate. This barely ever happens in a real production system, thus microservice architecture, with a varying scaling rate of each microservice, is often preferred over monolithic architecture.
 
-=== Serverless
+=== 4.3 Serverless
 
 Scaling serverless systems looks very similar to microservice scaling. The major difference here is, of course, the unit of compute. This means that the base cost of serverless scaling is even higher (because serverless architecture requires more runtime instances to achieve the same result) than for a microservice architecture. Therefore, using serverless makes the most sense when the base cost of a system does not matter and only scaling performance is relevant.
 
-=== Difficulties with scaling
+=== 4.4 Difficulties with scaling
 
 As previously mentioned, both the monolithic architecture as well as microservice architecture do encounter some efficiency problems while scaling. The reason for that are the deployment containers one typically uses when dealing with monolith/microservice scaling (VMs and containers). When scaling VMs or containers, we always deal with threshold based scaling <<threshold-scaling>>. This means that we scale (add or remove) a deployment based on system resources used. Generally, we define both a lower threshold (~25% CPU load) and an upper threshold (~80% CPU load) for our system.
 
@@ -199,7 +202,7 @@ image::../images/aws-lambda-p50-p95.png[align=center]
 
 This graph shows the response time of an AWS Lambda function under load. As one can see, the median response (P50) remained stable during the entire test-run with even the 90th and 95th percentile showing close to no variance. <<serverless-scaling>>
 
-== Scaling Across Datacenters
+== 5. Scaling Across Datacenters
 
 When scaling applications, one can reach the limit of their own data center quite fast. To overcome the limits of on-premise compute resources, people often rent compute resources in external data centers and clouds like the Google Cloud <<gcloud>>, Amazon AWS <<aws>> or Microsoft Azure <<azure>>.
 
@@ -219,13 +222,13 @@ image::../images/DCOSHybrid.jpg[align=center]
 
 This image shows a DC/OS cluster which is deployed on a hybrid cloud. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
 
-== Cloud architecture in Initiative Interchange
+== 6. Cloud architecture in Initiative Interchange
 
 As we wanted low latency access for all of our users (including, but not limited to,  users in Canada , US, El Salvador, Mexico, Brazil, Argentina, Uruguay, Venezuela, Peru, Austria, Switzerland, Germany, France, Italy and Ukraine) and did not have enough money to launch a private cloud or enough knowledge to design our own public cloud infrastructure, we chose to deploy our application on AWS and utilize AWS infrastructure services (load balancing via AWS ELB <<aws-elb>>; networking via AWS VPC <<aws-vpc>>; global load balancing and DNS resolving via AWS Route 53 <<aws-r53>>; VMs on AWS EC2 <<aws-ec2>>) to our advantage.
 
 Our initial approach was using DigitialOcea <<digitalocean>>  with DC/OS. This solution would have given us finer control over our application and VMs, and even though DigitalOcean was cheaper (8 CPUs, 32 GB RAM - DigitalOcean<<do-price>>: $0.238/hr; AWS<<aws-price>>: $0.384/hr), it was ultimately written off as it would have been more complicated to set up and did not offer the same enterprise grade features and locations as AWS did.
 
-== Implementation of Social Networks
+== 7. Implementation of Social Networks
 
 One of the best example of how social network architecture changed over the years is Facebook. Facebook started out with the very common PHP+MySQL stack all running on an Apache WebServer <<apache-server>>. This comes as no surprise as both PHP and MySQL are two of the most used technologies for web development. <<php-usage>> <<mysql-usage>>
 
@@ -237,7 +240,7 @@ Furthermore, Facebook developed their own storage/retrieval system called Haysta
 
 Facebooks architecture is one of the most impressive tech stacks currently in action. It has developed from a single $85/month server system <<fb-first-server>> to a giant platform with own data centers to fuel their operation. We tried to learn from Facebooks scaling experiences and design our architecture to have first class scaling support.
 
-=== General Aspects on Implementing Social Networks
+=== 7.1 General Aspects on Implementing Social Networks
 
 As previously mentioned, scaling is one of the most important challenges a social network faces. While a social network has to be fast and resource-optimized, one also has to keep cost in mind.
 
@@ -253,13 +256,13 @@ Initially, we tried to do so by balancing the load from the client side with Net
 
 Another important aspect to keep in mind is security. Both user data, as well as servers have to be kept secure. With a privacy-by-design based approach in mind, we tried to carefully design our backend and security strategy to be in line with the EU-GDPR. In the end, we abandoned our initial security strategy and used an external one instead.
 
-=== Initial Microservice Implementation
+=== 7.2 Initial Microservice Implementation
 
 To solve all of the above mentioned problems, we wanted to chose a technology with which we were familiar and which was sufficiently mature and advanced to suit even our more unusual design choices (like client side load balancing and polyglot persistence).
 
 Microservice seemed like the only feasible option since we were not aware of serverless technology and a monolithic architecture was not an option since we had to ensure efficient and cost-effective scalability of our platform.
 
-==== System Architecture
+==== 7.2.1 System Architecture
 
 .Initial Initiative Interchange backend architecture
 [#img-i2springarch]
@@ -310,15 +313,15 @@ The graph above shows the response time of both MySQL as well as Neo4j for such 
 
 We chose Couchbase <<couchbase>> because of its XDCR (**C**ross-**D**ata-**C**enter-**R**eplication), full-text-search and high-availability features.
 
-==== Experience
+==== 7.2.2 Experience
 
 Our experience with Spring Boot and the Netflix stack was very pleasant. There is a plenty of documentation, both from Pivotal <<spring-pivotal>> and external sources <<spring-baeldung>>. We did not encounter any instabilities and even more experimental aspects of our project, like polyglot persistence, were very stable.
 
-==== Issues and Limitations
+==== 7.2.3 Issues and Limitations
 
 The major issues we encountered were not the fault of our technology stack. A couple of sprints into our project, one of our team-members had to leave our team. Due to that circumstance, we did not have enough human resources to complete the backend in time. Additionally, our project partner was not able to secure the necessary funding to deploy the project.
 
-=== Moving to Serverless Implementation
+=== 7.3 Moving to Serverless Implementation
 
 Since we needed a new solution which would allow us to develop and deploy the backend with less human and financial resources than planned, we started research on alternatives to Spring Boot and, eventually, microservice architecture. In late December of 2018, we discovered serverless architecture and started assessing whether or not it would be a good fit for us and our project.
 
@@ -326,7 +329,7 @@ Most of our time savings came from not having to configure AWS Lambda. The scali
 
 Porting existing code to serverless was fairly trivial. Layered architecture still exists in a serverless environment, if a bit smaller. The major difference we had to get used to was the big focus on callback functions. The Spring Boot controllers were swapped with serverless hooks.
 
-==== Spring Boot JPA Repository vs Node.js MySQL repository
+==== 7.3.1 Spring Boot JPA Repository vs Node.js MySQL repository
 
 .Repository in Java with Spring JPA
 ```java
@@ -357,7 +360,7 @@ class ProductRepository{
 }
 ```
 
-==== Spring Boot Controller vs Node.js AWS Lambda Hook
+==== 7.3.2 Spring Boot Controller vs Node.js AWS Lambda Hook
 
 .Helloworld controller in Java with Spring
 ```java
@@ -380,7 +383,7 @@ exports.handler = function(event, context, callback) {
 }
 ```
 
-==== Modified System Architecture
+==== 7.3.3 Modified System Architecture
 
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
@@ -400,7 +403,7 @@ Next to API Gateway, one can see the three main parts of our application, consis
 
 The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy <<aws-scaling>> (threshold based <<threshold-scaling>>).
 
-=== Comparison of Microservices and Serverless
+=== 7.4 Comparison of Microservices and Serverless
 
 When working with serverless architecture in AWS Lambda, we encountered some major differences to microservice architecture in Java with Spring Boot.
 
@@ -408,18 +411,18 @@ The biggest of them being the language agnostic nature of the serverless archite
 
 This is made possible by the modularity of serverless functions. A key difference to microservices which allows rapid development and deployment of serverless applications.
 
-== Results and Learnings
+== 8. Results and Learnings
 
 <WIP>
 //TODO
 
-== Conclusion
+== 9. Conclusion
 
 This paper describes our findings while developing the backend for what is supposed to be a highly scalable social media network. While we can not draw a definite conclusion on what software architecture is ultimately better, we found the newer, less mature serverless architecture pattern to be very efficient while scaling, easy to develop and to maintain. Serverless technology is very promising, if a bit hard to get into. With time, and as the technology matures, most of its flaws will fade away, giving the serverless architecture pattern the chance to be a real competitor to microservice architecture and eventually deprecate the latter.
 
 <<<
 [bibliography]
-== References
+== 10. References
 
 - [[[ii,1]]] Initiative Interchange: https://www.initiative-interchange.org/
 - [[[rotary, 2]]] Home | Rotary International: https://www.rotary.org/en
