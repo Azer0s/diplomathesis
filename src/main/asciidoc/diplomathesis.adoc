@@ -10,14 +10,6 @@ v0.1, 2019-03-24
 
 <<<
 
-== Table of contents
-
-<WIP: Asciidoctor really doesn't like PDF for some reason...>
-//TODO: Fix toc
-//:toc:
-
-<<<
-
 == Introduction
 
 With the rapid move to cloud technologies, architectural patterns and software design have become an increasingly important aspect of the cloud native movement. We have been given the task of designing a social media network for our partner Initiative Interchange <<ii>>, a daughter organizations of Rotary International <<rotary>> and Unicef <<unicef>> partner. Since the organization has members all over the world, the social network was supposed to be both highly scalable and available (with constant access speeds all across the globe). This paper shows the design process and theoretical aspects of such an architecture.

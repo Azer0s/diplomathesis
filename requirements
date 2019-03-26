@@ -4,4 +4,10 @@ sudo gem install $(ls *.gem)
 sudo apt-get -y install cmake
 sudo apt install libpango1.0-dev
 sudo apt-get -qq -y install bison flex libffi-dev libxml2-dev libgdk-pixbuf2.0-dev libcairo2-dev libpango1.0-dev fonts-lyx
+sudo apt-get install texlive-latex-base
+wget http://mirrors.edge.kernel.org/ubuntu/pool/universe/p/pdftk-java/pdftk-java_3.0.2-2_all.deb
+sudo chmod +x pdftk-java_3.0.2-2_all.deb
+sudo dpkg -i pdftk-java_3.0.2-2_all.deb
+sudo apt install -f
+sudo dpkg -i pdftk-java_3.0.2-2_all.deb
 sudo gem install asciidoctor-mathematical --pre
