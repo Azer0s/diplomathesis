@@ -10,43 +10,49 @@ v0.1, 2019-03-24
 
 <<<
 
-== 1. Introduction
+== 1. Abstract
 
-With the rapid move to cloud technologies, architectural patterns and software design have become an increasingly important aspect of the cloud native movement. We have been given the task of designing a social media network for our partner Initiative Interchange <<ii>>, a daughter organizations of Rotary International <<rotary>> and Unicef <<unicef>> partner. Since the organization has members all over the world, the social network was supposed to be both highly scalable and available (with constant access speeds all across the globe). This paper shows the design process and theoretical aspects of such an architecture.
+//TODO: Worum gehts (social media platform), es werden verschiedene Architekturmuster besprochen und verglichen, "In this work I discuss [..] I present different approaches to backend design. In the implementation chapters we present the backend implementation via AWS Lambda. The serverless architecture made if sign. easier to [..]. We found out that for such kind of application [..] the serverless architecture [..] scaling performance."
+<WIP>
 
-=== 1.1 Distributed Systems
+== 2. Introduction
+
+With the rapid move to cloud technologies, architectural patterns and software design have become an increasingly important aspect of the cloud native movement. We have been given the task of designing a social media network for our partner Initiative Interchange <<ii>>, a daughter organizations of Rotary International <<rotary>> and Unicef <<unicef>> partner.
+
+//TODO: More detailed description of app
+
+Since the organization has members all over the world, the social network was supposed to be both highly scalable and available (with constant access speeds all across the globe). This paper shows the design process and theoretical aspects of such an architecture.
+
+=== 2.1 Distributed Systems
 
 //TODO
 <WIP>
 
-=== 1.2 System Architectures
+=== 2.2 System Architectures
 
 //TODO
 <WIP>
 
-=== 1.3 Structure of this Thesis
+=== 2.3 Structure of this Thesis
 
 In this thesis, I will first show the theoretics of designing a cloud architecture. After that, I will go into general aspects of designing and developing a social network and analyze an existing social networking platform. I will conclude with both our initial approach and final cloud design.
-
-== 2. Abstract
-
-//TODO
-<WIP>
 
 <<<
 
 == 3. Application Architectures
 
+//TODO: In this chapter I am going to present...
+
 === 3.1 Monolithic Architectures
 
-A monolithic architecture describes the structure of a system which houses the entire backend of a platform. Every part of the backend (persistence, business-logic, UI, etc...) is contained in this single program. <<monolith>>
+A monolithic architecture describes the structure of a system which houses the entire backend of a platform. Every part of the backend (persistence, business-logic, UI, etc.) is contained in this single program. <<monolith>>
 
 One central paradigm of monoliths is layered architecture. Layered architecture describes a concept in which a program consists of multiple layers, each responsible for a specific thing with very limited interaction between said layers. <<layered-architecture>>
 
 .Layered architecture pattern
 [#img-monolith]
 [caption="Figure 1: "]
-image::../images/LayeredArchitecture.png[align=center]
+image::../images/LayeredArchitecture.png[align=center, pdfwidth=10cm]
 
 ==== 3.1.1 Advantages
 
@@ -67,7 +73,7 @@ A typical monolithic architecture stack from Microsoft could look like so:
 .Microsofts monolithic architecture stack
 [#img-msstack]
 [caption="Figure 2: "]
-image::../images/MonolithicArchitectureMicrosoft.png[align=center, pdfwidth=7.4cm]
+image::../images/MonolithicArchitectureMicrosoft.png[align=center, pdfwidth=6cm]
 
 This is a fairly well known software stack from Microsoft. The described architecture uses ASP.NET as the system framework and Microsoft SQL Server as the database.
 
@@ -154,6 +160,8 @@ The difference to microservices here is that the serverless function can not do 
 
 == 4. Scaling Architectures in Distributed Systems
 
+//TODO: This chapter is about...
+
 === 4.1 Monolithic
 
 Since the monolithic architecture only scales through a replicated database, the cost function for a scaled monolith where stem:[s] is the number of machines the monolith is running on, stem:[c_{lb}] is the cost of the load-balancing forward and stem:[c_{net}] is the cost of the network communication, could look like so:
@@ -206,7 +214,9 @@ This also means, that one can never use more than the upper threshold defined fo
 [caption="Figure 5: "]
 image::../images/aws-lambda-p50-p95.png[align=center]
 
-This graph shows the response time of an AWS Lambda function under load. As one can see, the median response (P50) remained stable during the entire test-run with even the 90th and 95th percentile showing close to no variance. <<serverless-scaling>>
+This graph shows the response time of an AWS Lambda function under load. As one can see, the median response (P50) remained stable during the entire test-run with even the 90th and 95th percentile showing close to no variance <<serverless-scaling>>.
+
+//TODO: Mention reproduction of this graph. Explain reproduction of this study.
 
 == 5. Scaling Across Datacenters
 
@@ -314,6 +324,7 @@ digraph G {
 [.center]
 [caption="Figure 10: "]
 image::../images/neo4j-vs-mysql.PNG[align=center]
+//TODO: Make width smaller
 
 The graph above shows the response time of both MySQL as well as Neo4j for such a use-case in a database with 1,000,000 users <<neo4j-mysql-friends>>. As one can see, the relational database did not even finish on a depth of 5.
 
@@ -334,6 +345,8 @@ Since we needed a new solution which would allow us to develop and deploy the ba
 Most of our time savings came from not having to configure AWS Lambda. The scaling aspect of AWS Lambda is a built-in feature. Both service discovery and service gateway are managed by AWS and the AWS Route 53 requires very minimal configuration for the global load balancing.
 
 Porting existing code to serverless was fairly trivial. Layered architecture still exists in a serverless environment, if a bit smaller. The major difference we had to get used to was the big focus on callback functions. The Spring Boot controllers were swapped with serverless hooks.
+
+//TODO: Specific example. First explain controller difference, then service, then persistence - red string
 
 ==== 7.3.1 Spring Boot JPA Repository vs Node.js MySQL repository
 
@@ -409,7 +422,11 @@ Next to API Gateway, one can see the three main parts of our application, consis
 
 The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy <<aws-scaling>> (threshold based <<threshold-scaling>>).
 
-=== 7.4 Comparison of Microservices and Serverless
+=== 7.4 Cloud Configuration
+
+//TODO: Add screenshots and descriptions of AWS config
+
+=== 7.5 Comparison of Microservices and Serverless
 
 When working with serverless architecture in AWS Lambda, we encountered some major differences to microservice architecture in Java with Spring Boot.
 
@@ -420,11 +437,21 @@ This is made possible by the modularity of serverless functions. A key differenc
 == 8. Results and Learnings
 
 <WIP>
-//TODO
+//TODO: Mention performance benchmark
 
-== 9. Conclusion
+== 9. Summary and Conclusions
 
-This paper describes our findings while developing the backend for what is supposed to be a highly scalable social media network. While we can not draw a definite conclusion on what software architecture is ultimately better, we found the newer, less mature serverless architecture pattern to be very efficient while scaling, easy to develop and to maintain. Serverless technology is very promising, if a bit hard to get into. With time, and as the technology matures, most of its flaws will fade away, giving the serverless architecture pattern the chance to be a real competitor to microservice architecture and eventually deprecate the latter.
+This paper describes our findings while developing the backend for what is supposed to be a highly scalable social media network.
+
+//TODO: Summarize: we started out developing a microservice architecture, due to problems [..] had to change architecture; analyzed different solutions; did benchmarks; noticed serverless performs better
+
+//TODO: Flatter yourself with cool parts of the project
+
+While we can not draw a definite conclusion on what software architecture is ultimately better, we found the newer, less mature serverless architecture pattern to be very efficient while scaling, easy to develop and to maintain.
+
+//TODO: As we found out through performance benchmarks [..]
+
+Serverless technology is very promising, if a bit hard to get into. With time, and as the technology matures, most of its flaws will fade away, giving the serverless architecture pattern the chance to be a real competitor to microservice architecture and eventually deprecate the latter.
 
 <<<
 [bibliography]
