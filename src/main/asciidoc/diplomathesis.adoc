@@ -52,7 +52,7 @@ A monolithic architecture describes the structure of a system which houses the e
 
 One central paradigm of monoliths is layered architecture. Layered architecture describes a concept in which a program consists of multiple layers, each responsible for a specific thing with very limited interaction between said layers. <<layered-architecture>>
 
-.Layered architecture pattern
+.Layered architecture pattern <<layered-architecture,[8]>>
 [#img-monolith]
 [caption="Figure 1: "]
 image::../images/LayeredArchitecture.png[align=center, pdfwidth=10cm]
@@ -128,7 +128,7 @@ This implementation of the microservice architecture utilizes the Netflix stack.
 
 Serverless architecture was created out of the need for more efficient scalability out-of-the-box <<fowler-serverless>>. This is achieved by sizing down the unit of compute from services to so-called "functions", "hooks" or "lambdas" (the smallest possible unit of compute size in high level programming) <<fowler-serverless>> <<serverless-bw>>. Essentially, the serverless architecture pattern is a kind of microservice architecture (every serverless function still has a layered architecture, if a very cut-down one).
 
-.Gartner hype cycle 2017
+.Gartner hype cycle 2017 <<hypecycle, [19]>>
 [#img-hypecycle]
 [caption="Figure 3: "]
 image::../images/hypecycle_2017.jpg[align=center]
@@ -137,7 +137,7 @@ Serverless architecture is a very new concept. According to the Gartner Hypecycl
 
 The design process of serverless applications is a bit more abstract than that of monoliths or microservices, since we do not work with controllers or typical response models, but rather with functions and events.
 
-.Serverless functions
+.Serverless functions <<serverless-cb,[20]>>
 [#img-slaws]
 [caption="Figure 4: "]
 image::../images/serverlessfunction.png[align=center]
@@ -210,7 +210,7 @@ image::../images/scaling.png[align=center]
 
 This also means, that one can never use more than the upper threshold defined for an operation, thus not utilizing the full potential of ones computational resources. The serverless architecture pattern solves that problem by shrinking down the unit of compute to the smallest possible size (functions), thus allowing more instances with a higher scaling threshold.
 
-.AWS Lambda Response Time Distribution (P50-P95)
+.AWS Lambda Response Time Distribution (P50-P95) <<serverless-scaling,[25]>>
 [#img-lambdaspeed]
 [.center]
 [caption="Figure 5: "]
@@ -232,13 +232,13 @@ Things like integration complexity, network design or scale management can compl
 
 To overcome these problems many companies launched their own day-2 <<day-2>> management solutions like DC/OS <<dcos>> <<why-dcos>> or OpenShift <<openshift>>.
 
-.DCOS Hybrid cloud
+.DCOS Hybrid cloud <<dcos-hybrid,[36]>>
 [#img-dcoshybrid]
 [.center]
 [caption="Figure 6: "]
 image::../images/DCOSHybrid.jpg[align=center]
 
-This image shows a DC/OS cluster which is deployed on a hybrid cloud. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
+This image shows a DC/OS cluster which is deployed on a hybrid cloud <<dcos-hybrid>>. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
 
 == 6. Cloud architecture in Initiative Interchange
 
@@ -457,11 +457,9 @@ Serverless technology is very promising, if a bit hard to get into. With time, a
 - [[[ii,1]]] Initiative Interchange: https://www.initiative-interchange.org/
 - [[[rotary, 2]]] Home | Rotary International: https://www.rotary.org/en
 - [[[unicef, 3]]] Home page | UNICEF: https://www.unicef.org/
-
 - [[[distributed,4]]] A Thorough Introduction to Distributed Systems – freeCodeCamp.org: https://medium.freecodecamp.org/a-thorough-introduction-to-distributed-systems-3b91562c9b3c
 - [[[system-arch, 5]]] What is Systems Architecture ?: https://www.lix.polytechnique.fr/~golden/systems_architecture.html
 - [[[cloud-arch, 6]]] What is cloud computing architecture? | HCL Technologies: https://www.hcltech.com/technology-qa/what-is-cloud-architecture
-
 - [[[monolith,7]]] Introduction to Monolithic Architecture and MicroServices Architecture: https://medium.com/koderlabs/introduction-to-monolithic-architecture-and-microservices-architecture-b211a5955c63
 - [[[layered-architecture,8]]] 1. Layered Architecture - Software Architecture Patterns [Book]: https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html
 - [[[monolith-codingthearchitecture,9]]] What is a Monolith? - Coding the Architecture: http://www.codingthearchitecture.com/2014/11/19/what_is_a_monolith.html
@@ -479,7 +477,6 @@ Serverless technology is very promising, if a bit hard to get into. With time, a
 - [[[aws-kinesis, 21]]] Amazon Kinesis: https://aws.amazon.com/kinesis/
 - [[[aws-lambda, 22]]] AWS Lambda – Serverless Compute - Amazon Web Services: https://aws.amazon.com/lambda/
 - [[[aws-dynamodb, 23]]] Amazon DynamoDB - Overview: https://aws.amazon.com/dynamodb/
-
 - [[[threshold-scaling, 24]]] M. Mohan Murthy, H. Sanjay and Jumnal Anand. Threshold Based Auto Scaling of Virtual Machines in Cloud Environment https://hal.inria.fr/hal-01403090/document
 - [[[serverless-scaling, 25]]] Serverless at Scale: Serving StackOverflow-like Traffic - Binaris Blog: https://blog.binaris.com/serverless-at-scale/
 - [[[gcloud,26]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/
@@ -492,35 +489,36 @@ Serverless technology is very promising, if a bit hard to get into. With time, a
 - [[[dcos, 33]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/
 - [[[why-dcos, 34]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
 - [[[openshift, 35]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
-- [[[orchestration-wiki, 36]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
-- [[[aws-elb, 37]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
-- [[[aws-vpc, 38]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
-- [[[aws-r53, 39]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
-- [[[aws-ec2, 40]]] Amazon EC2: https://aws.amazon.com/ec2/
-- [[[digitalocean, 41]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
-- [[[do-price, 42]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
-- [[[aws-price, 43]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
-- [[[apache-server, 44]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
-- [[[php-usage, 45]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
-- [[[mysql-usage, 46]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
-- [[[hhvm, 47]]] HHVM | HHVM: https://hhvm.com/
-- [[[memcached, 48]]] memcached - a distributed memory object caching system: http://memcached.org/
-- [[[fb-stack, 49]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
-- [[[haystack-paper, 50]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
-- [[[hadoop, 51]]] The Apache Hadoop project: https://hadoop.apache.org/
-- [[[hive, 52]]] The Apache Hive project: https://hive.apache.org/
-- [[[fb-first-server, 53]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
-- [[[dns-lb, 54]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
-- [[[spring, 55]]] Spring Boot: https://spring.io/projects/spring-boot
-- [[[netflix-zuul, 56]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
-- [[[netflix-eureka, 57]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
-- [[[logstash, 58]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
-- [[[elastic, 59]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
-- [[[kibana, 60]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
-- [[[neo4j-mysql-friends, 61]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
-- [[[couchbase, 62]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
-- [[[spring-pivotal, 63]]] Guides: https://spring.io/guides
-- [[[spring-baeldung, 64]]] Baeldung | Java, Spring and Web Development tutorials: https://www.baeldung.com/
-- [[[aws-rds, 65]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/
-- [[[aws-neptune, 66]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/
-- [[[aws-scaling, 67]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
+- [[[dcos-hybrid, 36]]] Introducing Hybrid Cloud Capabilities in DC/OS 1.11: Regions, Zones, and Linked Clusters - Mesosphere: https://mesosphere.com/blog/dcos-1_11-hybrid/
+- [[[orchestration-wiki, 37]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
+- [[[aws-elb, 38]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
+- [[[aws-vpc, 39]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
+- [[[aws-r53, 40]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
+- [[[aws-ec2, 41]]] Amazon EC2: https://aws.amazon.com/ec2/
+- [[[digitalocean, 42]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
+- [[[do-price, 43]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
+- [[[aws-price, 44]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
+- [[[apache-server, 45]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
+- [[[php-usage, 46]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
+- [[[mysql-usage, 47]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
+- [[[hhvm, 48]]] HHVM | HHVM: https://hhvm.com/
+- [[[memcached, 49]]] memcached - a distributed memory object caching system: http://memcached.org/
+- [[[fb-stack, 50]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
+- [[[haystack-paper, 51]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
+- [[[hadoop, 52]]] The Apache Hadoop project: https://hadoop.apache.org/
+- [[[hive, 53]]] The Apache Hive project: https://hive.apache.org/
+- [[[fb-first-server, 54]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
+- [[[dns-lb, 55]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
+- [[[spring, 56]]] Spring Boot: https://spring.io/projects/spring-boot
+- [[[netflix-zuul, 57]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
+- [[[netflix-eureka, 58]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
+- [[[logstash, 59]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
+- [[[elastic, 60]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
+- [[[kibana, 61]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
+- [[[neo4j-mysql-friends, 62]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
+- [[[couchbase, 63]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
+- [[[spring-pivotal, 64]]] Guides: https://spring.io/guides
+- [[[spring-baeldung, 65]]] Baeldung | Java, Spring and Web Development tutorials: https://www.baeldung.com/
+- [[[aws-rds, 66]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/
+- [[[aws-neptune, 67]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/
+- [[[aws-scaling, 68]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
