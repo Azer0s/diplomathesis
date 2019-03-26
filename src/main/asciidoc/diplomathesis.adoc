@@ -32,7 +32,7 @@ With the rapid move to cloud technologies, architectural patterns and software d
 
 === Structure of this Thesis
 
-<WIP>
+In this thesis, I will first show the theoretics of designing a cloud architecture. After that, I will go into general aspects of designing and developing a social network and analyze an existing social networking platform. I will conclude with both our initial approach and final cloud design.
 
 == Abstract
 
