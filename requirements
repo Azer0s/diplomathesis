@@ -1,4 +1,6 @@
 git clone https://github.com/asciidoctor/asciidoctor-pdf.git
+cd asciidoctor-pdf
+git checkout d7af149e0453b2327c4ec82505649bc76a0c16bf
 sudo gem build asciidoctor-pdf.gemspec
 sudo gem install $(ls *.gem)
 sudo apt-get -y install cmake
