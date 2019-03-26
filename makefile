@@ -16,6 +16,7 @@ thesis:
 	@rm build/diplomathesis.pdf
 	@pdftk build/TitlePage.pdf build/diplomathesis1.pdf cat output build/diplomathesis.pdf
 	@rm build/diplomathesis1.pdf
+	@rm build/TitlePage.*
 	@echo
 	@echo "\033[4m\033[1mDone!\033[0m"
 	@echo
