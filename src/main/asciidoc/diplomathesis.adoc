@@ -348,7 +348,7 @@ Porting existing code to serverless was fairly trivial. Layered architecture sti
 
 In the following code-examples, I will write a controller, service and repository in both Spring Boot with Java and AWS Lambda with JavaScript. The example bellow is a simple GET function which returns a domain object (in this case: a `StatusUpdate`).
 
-
+<<<
 ==== 7.3.1 Controller
 
 .Controller in Spring Boot
@@ -386,6 +386,7 @@ Spring Boot offers built in dependency injection which we utilize by using the `
 
 After calling the service to retrieve the data, Spring Boot returns the data as HTTP response (which is made possible by the `@ReponseBody` annotation). AWS Lambda on the other hand uses a callback function, often seen in JavaScript application.
 
+<<<
 ==== 7.3.2 Service
 
 .Service in Spring Boot
@@ -432,6 +433,7 @@ In the service, Spring Boot uses dependency injection again to get an instance o
 
 In Java, we can make use of the `Optional` API to return `null` if we can not find the object, while in JavaScript, we use the well-known `if(error)` idiom to return null if our repository errored. We also use the `Optional` API to set the `id` parameter to an empty string, while in JavaScript, we simply delete the property.
 
+<<<
 ==== 7.3.3 Repository
 
 .Repository in Java with Spring JPA
@@ -470,13 +472,14 @@ In Java with Spring Boot, repositories are fairly simple due to Spring Data JPA.
 
 In JavaScript, we have to use the `mysql` library and manually write the SQL query, a simple prepared statement in this case. The connection has to be created manually (this can, of course, be outsourced into another file, but this is not supported by AWS Lambda out-of-the-box). The `mysql` library uses callbacks, just like AWS Lambda does.
 
+<<<
 ==== 7.3.3 Modified System Architecture
 
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
 [.center]
 [caption="Figure 11: "]
-image::../images/i2-architecture-aws.png[align=center]
+image::../images/i2-architecture-aws.png[align=center, pdfwidth=17.3cm]
 
 The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
 
