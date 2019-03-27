@@ -416,6 +416,7 @@ exports.getById = function(id, callback){
 };
 ```
 
+//TODO: Comparison
 
 ==== 7.3.3 Repository
 
@@ -450,6 +451,8 @@ exports.findById(id, callback){
     con.end();
 }
 ```
+
+//TODO: Comparison
 
 ==== 7.3.3 Modified System Architecture
 
