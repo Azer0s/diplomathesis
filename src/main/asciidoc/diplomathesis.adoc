@@ -12,8 +12,7 @@ v0.1, 2019-03-24
 
 == 1. Abstract
 
-//TODO: Worum gehts (social media platform), es werden verschiedene Architekturmuster besprochen und verglichen, "In this work I discuss [..] I present different approaches to backend design. In the implementation chapters we present the backend implementation via AWS Lambda. The serverless architecture made if sign. easier to [..]. We found out that for such kind of application [..] the serverless architecture [..] scaling performance."
-<WIP>
+In this work I discuss the creation of a highly scalable social media network. I will present different approaches to backend design, explain their background, advantages and disadvantages and show a typical example of such an architecture. Furthermore, I will present both our initial backend implementation, based on microservices, why we switched to a serverless approach and show performance benchmarks of serverless scaling. We found out that serverless architecture made it significantly easier to build, deploy and manage highly scalable applications. Its scaling properties make it superior (scaling wise) to both microservices and monoliths.
 
 <<<
 
@@ -347,59 +346,108 @@ Most of our time savings came from not having to configure AWS Lambda. The scali
 
 Porting existing code to serverless was fairly trivial. Layered architecture still exists in a serverless environment, if a bit smaller. The major difference we had to get used to was the big focus on callback functions. The Spring Boot controllers were swapped with serverless hooks.
 
-//TODO: Specific example. First explain controller difference, then service, then persistence - red string
+In the following code-examples, I will write a controller, service and repository in both Spring Boot with Java and AWS Lambda with JavaScript. The example bellow is a simple GET function which returns a domain object (in this case: a `StatusUpdate`).
 
-==== 7.3.1 Spring Boot JPA Repository vs Node.js MySQL repository
+
+==== 7.3.1 Controller
+
+.Controller in Spring Boot
+```java
+@Controller
+public class StatusUpdateController {
+
+    @Autowired
+    private StatusUpdateService statusUpdateService;
+
+    @RequestMapping(value = " /statusupdate/{id}", method=RequestMethod.GET)
+    @ReponseBody
+    public String getPost(@PathVariable String id) {
+        return statusUpdateService.getById(id);
+    }
+}
+```
+
+.Hook in AWS Lambda
+```js
+var statusUpdateService = require("./service/statusUpdateService.js");
+
+exports.handler = function(event, context, callback) {
+    statusUpdateService.getById(event.id, function(error, data){
+        callback(error,data);
+    });
+};
+```
+
+The difference between Spring Boot and AWS Lambda is already apparent in the controller.
+
+In Spring Boot, the function is registered with an annotation, `@RequestMapping(value = " /statusupdate/{id}", method=RequestMethod.GET)` while the registration of the serverless function is not done in code. Instead, one has to register the function over the AWS console web-interface.
+
+Spring Boot offers built in dependency injection which we utilize by using the `@Autowired` annotation to automatically inject the `StatusUpdateService`. AWS Lambda does not offer DI, so one has to import the service functions into a JavaScript object to make use of them.
+
+After calling the service to retrieve the data, Spring Boot returns the data as HTTP response (which is made possible by the `@ReponseBody` annotation). AWS Lambda on the other hand uses a callback function, often seen in JavaScript application.
+
+==== 7.3.2 Service
+
+.Service in Spring Boot
+```java
+@Service
+public class StatusUpdateService{
+
+    @Autowired
+    private StatusUpdateRepository statusUpdateRepository;
+
+    public StatusUpdate getById(String id){
+        return statusUpdateRepository.findById(id).orElse(null);
+    }
+}
+```
+
+.Service in AWS Lambda
+```js
+var statusUpdateRepository = require("./persistence/statusUpdateRepository.js");
+
+exports.getById = function(id, callback){
+    statusUpdateRepository.findById(id, function(error, data){
+        if(error) callback(error,null);
+
+        delete data.id;
+        callback(null, data);
+    });
+};
+```
+
+
+==== 7.3.3 Repository
 
 .Repository in Java with Spring JPA
 ```java
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product findByName(String productName);
+public interface StatusUpdateRepository extends JpaRepository<StatusUpdate, String> {
+    StatusUpdate findById(String id);
 }
 ```
 
 .Repository in JavaScript
 ```js
-class ProductRepository{
-    constructor(con){
-        this.con = con;
-    }
 
-    findByName(name, callback){
-        this.con.connect();
+var mysql = require('mysql');
+var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'me',
+    password: 'secret',
+    database: 'i2db'
+});
 
-        this.con.query("SELECT * FROM `Product` WHERE `Name` = ?", [name],
-        function (error, results, fields){
-            if (error) callback(error,null);
-            callback(null,results);
-        });
+exports.findById(id, callback){
+    con.connect();
 
-        this.con.end();
-    }
-}
-```
+    con.query("SELECT * FROM `StatusUpdate` WHERE `id` = ?", [id],
+    function (error, results, fields){
+        if (error) callback(error,null);
+        callback(null,results[0]);
+    });
 
-==== 7.3.2 Spring Boot Controller vs Node.js AWS Lambda Hook
-
-.Helloworld controller in Java with Spring
-```java
-@Controller
-@RequestMapping("/")
-public class HelloWorldController {
-
-    @GetMapping
-    @ReponseBody
-    public String index() {
-        return "Hello world!";
-    }
-}
-```
-
-.Helloworld hook in JavaScript with AWS Lambda
-```js
-exports.handler = function(event, context, callback) {
-    callback(null, "Hello world!");
+    con.end();
 }
 ```
 
