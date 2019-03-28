@@ -12,13 +12,13 @@ v0.1, 2019-03-24
 
 == 1. Abstract
 
-In this work I discuss the creation of a highly scalable social media network. I will present different approaches to backend design, explain their background, advantages and disadvantages and show a typical example of such an architecture. Furthermore, I will present both our initial backend implementation, based on microservices, why we switched to a serverless approach and show performance benchmarks of serverless scaling. We found out that serverless architecture made it significantly easier to build, deploy and manage highly scalable applications. Its scaling properties make it superior (scaling wise) to both microservices and monoliths.
+In this work I discuss the creation of a highly scalable social media network. I will present different approaches to backend design, explain their background, advantages and disadvantages and show a typical example of such an architecture. Furthermore, I will present both our initial backend implementation, based on microservices, why we switched to a serverless approach, and show performance benchmarks of serverless scaling. We found out that serverless architecture made it significantly easier to build, deploy and manage highly scalable applications. Its scaling properties make it superior (scaling wise) to both microservices and monoliths.
 
 <<<
 
 == 2. Introduction
 
-With the rapid move to cloud technologies, architectural patterns and software design have become an increasingly important aspect of the cloud native movement. We have been given the task of designing a social media network for our partner Initiative Interchange <<ii>>, a daughter organizations of Rotary International <<rotary>> and Unicef <<unicef>> partner.
+With the rapid move to cloud technologies, architectural patterns and software design have become an increasingly important aspect of the cloud native movement. We have been given the task of designing a social media network for our partner Initiative Interchange <<ii>>, a daughter organization of Rotary International <<rotary>> and Unicef <<unicef>> partner.
 
 Initiative Interchange is an organization with the goal of making charity work more accessible and at the same time connect Rotary Interact members all over the world. The social network is supposed to give information on upcoming events, get reports on project funding and get the latest news from Rotary Interact clubs that are nearby. Furthermore, one can see posts and updates from fellow Rotary Interact members from around the world.
 
@@ -29,7 +29,7 @@ Since the organization has members all over the planet, the social network was s
 [quote, Stanislav Kozlovski, A Thorough Introduction to Distributed Systems [4] ]
 A distributed system in its most simplest definition is a group of computers working together as to appear as a single computer to the end-user.
 
-As server demands grow, the need for computational power does as well. The challenge, making multiple systems work together to form a single platform which acts like a single machine towards to the user is a highly discussed and seldomly mastered one. One of our tasks was to make our platform highly scalable by utilizing distributed systems and system scaling <<distributed>>.
+As server demands grow, the need for computational power does as well. The challenge, making multiple systems work together to form a single platform which acts like a single machine towards the user is a highly discussed and seldomly mastered one. One of our tasks was to make our platform highly scalable by utilizing distributed systems and system scaling <<distributed>>.
 
 === 2.2 System Architectures
 
@@ -43,7 +43,7 @@ In this thesis, I will first show the theoretics of designing a cloud architectu
 
 == 3. Application Architectures
 
-In this chapter, I am going to present different application architectures. I will explain their advantages, disadvantages and present sample tech stacks that are typical for that architecture.
+In this chapter, I am going to present different application architectures. I will explain their advantages, disadvantages, and present sample tech stacks that are typical for that architecture.
 
 === 3.1 Monolithic Architectures
 
@@ -60,16 +60,16 @@ image::../images/LayeredArchitecture.png[align=center, pdfwidth=10cm]
 
 Although the concept of monolithic architecture is quite old, it still has decisive advantages over other architectures.
 
-Due to the simplicity in architectural design, a monolith is very easy to develop, the layered architecture also allows for the application to be simple to test and the deployment of monolithic systems is also fairly straightforward: the binary of the program simply has to be copied to the target machine and then be executed. <<monolith>>
+Due to the simplicity in architectural design, a monolith is very easy to develop. The layered architecture also allows for the application to be simple to test and the deployment of monolithic systems is also fairly straightforward: the binary of the program simply has to be copied to the target machine and then be executed <<monolith>>.
 
 <<<
 ==== 3.1.2 Drawbacks
 
-That being said, due to some aspects of monolithic architecture, this architectural style has become unviable to most and even an antipattern to some. <<monolith-codingthearchitecture>>
+That being said, due to some aspects of monolithic architecture, this architectural style has become unviable to most and even an antipattern to some <<monolith-codingthearchitecture>>.
 
-Monolithic systems can become very complex to understand. Especially for new developers and fast growing projects, this is a big problem. Furthermore, an instance of a monolithic system cannot be updated without the instance shutting down. And due to the strongly-coupled nature of monoliths, unknown code dependencies might make the system crash because of a single change. <<monolith>> <<monolith-doomed>>
+Monolithic systems can become very complex to understand. Especially for new developers and fast growing projects, this is a big problem. Furthermore, an instance of a monolithic system cannot be updated without the instance shutting down. And due to the strongly-coupled nature of monoliths, unknown code dependencies might make the system crash because of a single change <<monolith>> <<monolith-doomed>>.
 
-Even though, the drawbacks of monoliths outweigh the advantages, monolithic architecture is still widely used in smaller projects, legacy systems or projects which lack the necessary financial resources for a more advanced software architecture.
+Even though the drawbacks of monoliths outweigh the advantages, monolithic architecture is still widely used in smaller projects, legacy systems or projects which lack the necessary financial resources for a more advanced software architecture.
 
 A typical monolithic architecture stack from Microsoft could look like so:
 
@@ -83,16 +83,16 @@ This is a fairly well known software stack from Microsoft. The described archite
 <<<
 === 3.2 Microservice Architectures
 
-Microservices have been the "architectural answer" to monoliths. Coined by Dr. Peter Rogers during a cloud computing conference, the term "micro web services" first described the idea of loosely coupled services which run independently and can each be maintained and developed individually. <<microservices-history>>
+Microservices have been the "architectural answer" to monoliths. Coined by Dr. Peter Rogers during a cloud computing conference, the term "micro web services" first described the idea of loosely coupled services which run independently and can each be maintained and developed individually <<microservices-history>>.
 
-The term "microservice" was first used at a conference in Venice in 2011. In 2012 the architectural style gained more popularity. At a talk at a conference in Krakow (Micro services - Java, the Unix Way <<microservices-krakow>>), James Lewis presented his ideas on the topic. Later that year Adrian Cockcroft of Netflix described microservices as "fine-grained SOA" and helped establish a microservice architecture at Netflix, thus pioneering the architecture at scale. <<microservices-fowler>> <<microservices-medium>>
+The term "microservice" was first used at a conference in Venice in 2011. In 2012 the architectural style gained more popularity. At a talk at a conference in Krakow (Micro services - Java, the Unix Way <<microservices-krakow>>), James Lewis presented his ideas on the topic. Later that year Adrian Cockcroft of Netflix described microservices as "fine-grained SOA" and helped establish a microservice architecture at Netflix, thus pioneering the architecture at scale <<microservices-fowler>> <<microservices-medium>>.
 
-As Lewis described in 2012, microservices are "small with a single responsibility". This means that each microservice (or each application in the system) only does a single thing. According to Lewis, a microservice should be "Small enough to fit in [ones] head". The usecases of a single microservice are supposed to be so small, that one can think about all of them at the same time.
+As Lewis described in 2012, microservices are "small with a single responsibility". This means that each microservice (or each application in the system) only does a single thing. According to Lewis, a microservice should be "Small enough to fit in [one's] head". The usecases of a single microservice are supposed to be so small, that one can think about all of them at the same time.
 
 
 ==== 3.2.1 Advantages
 
-Microservices were always seen as a successor to monoliths <<microservices-history>>. Therefore, they attempt to solve many of the problems that the monolithic architecture has. Due to each microservice being, relatively, small, the risk of a system becoming too complex for new developers to understand is kept to a minimum. The small, single responsibility nature of microservices allows for on-the-fly updating through CI/CD. Furthermore, microservices allow for language agnostic development. That means that one can use multiple programming languages and runtimes in one project to best suit the need of specific usecases/functions <<monolith>> <<microservices-cicd>> <<microservices-dzone>>.
+Microservices were always seen as a successor to monoliths <<microservices-history>>. Therefore, they attempt to solve many of the problems that the monolithic architecture has. Due to each microservice being relatively small, the risk of a system becoming too complex for new developers to understand is kept to a minimum. The small, single responsibility nature of microservices allows for on-the-fly updating through CI/CD. Furthermore, microservices allow for language agnostic development. That means that one can use multiple programming languages and runtimes in one project to best suit the need of specific usecases/functions <<monolith>> <<microservices-cicd>> <<microservices-dzone>>.
 
 ==== 3.2.2 Drawbacks
 
@@ -145,7 +145,7 @@ image::../images/serverlessfunction.png[align=center]
 
 This diagram shows the flow of a serverless function <<serverless-cb>>. The dispatcher, in this case AWS Kinesis <<aws-kinesis>>, a real time analysis tool, triggers an AWS Lambda <<aws-lambda>> function through a direct call. The serverless function, then inserts data into the database, AWS DynamoDB <<aws-dynamodb>> in this case, and returns a result.
 
-The difference to microservices here is that the serverless function can not do anything else than that one specific task, while a microservice of a specific domain can do multiple tasks and fulfill multiple use-cases.
+The difference to microservices here is that the serverless function cannot do anything else than that one specific task, while a microservice of a specific domain can do multiple tasks and fulfill multiple use-cases.
 
 ==== 3.3.1 Advantages
 
@@ -161,7 +161,7 @@ One of the most important advantages for us was the ease in development. Since A
 
 Since serverless architecture is still a relatively new technology, it still has some flaws and ways to go to be completely production-ready.
 
-One of the major issues of serverless technology is the vendor lock-in. Most of the cloud providers offering serverless hosting, require the applications to be written in their own specific framework. This makes it hard to switch cloud providers and might turn companies away from the technology <<serverless-cb>>.
+One of the major issues of serverless technology is the vendor lock-in. Most of the cloud providers offering serverless hosting require the applications to be written in their own specific framework. This makes it hard to switch cloud providers and might turn companies away from the technology <<serverless-cb>>.
 
 Additionally, due to the fact that serverless is not widely used, there are close to no coding guidelines for clean serverless backend code. Therefore, every company has to develop their own internal serverless coding guidelines, which makes both serverless open-source development, as well as integrating new employees into a development team harder <<serverless-cb>>.
 
@@ -178,7 +178,7 @@ Since the monolithic architecture only scales through a replicated database, the
 c_{scaled_{mon}} = s*((\sum_{i=0}^l n_i)+m) + b + nc
 ++++
 
-Even though, scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
+Even though scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
 
 === 4.2 Microservices
 
@@ -191,7 +191,7 @@ This means that the runtime cost of a system utilizing microservice architecture
 c_{scaled_{ms}} = \sum_{i=0}^s(\sum_{j = 0}^{ms_{total}} (ms_{ij}*(n_j+m_j))) + c_{lb} + c_{net}
 ++++
 
-Where stem:[ms_total] is the number of individual microservices, stem:[ms_{ij}] is the number of instances of a specific microservice on a specific machine.
+Where stem:[ms_{total}] is the number of individual microservices, stem:[ms_{ij}] is the number of instances of a specific microservice on a specific machine.
 
 As one can deduct from the formulae above, scaling a monolith can be less expensive than scaling microservices if said microservices are all scaled at the same rate. This barely ever happens in a real production system, thus microservice architecture, with a varying scaling rate of each microservice, is often preferred over monolithic architecture.
 
@@ -213,7 +213,7 @@ The graph bellow shows a visual representation of the same computational space u
 [caption="Figure 4: "]
 image::../images/scaling.png[align=center]
 
-This also means, that one can never use more than the upper threshold defined for an operation, thus not utilizing the full potential of ones computational resources. The serverless architecture pattern solves that problem by shrinking down the unit of compute to the smallest possible size (functions), thus allowing more instances with a higher scaling threshold.
+This also means that one can never use more than the upper threshold defined for an operation, thus not utilizing the full potential of ones computational resources. The serverless architecture pattern solves that problem by shrinking down the unit of compute to the smallest possible size (functions), thus allowing more instances with a higher scaling threshold.
 
 .AWS Lambda Response Time Distribution (P50-P95) <<serverless-scaling,[26]>>
 [#img-lambdaspeed]
@@ -223,7 +223,7 @@ image::../images/aws-lambda-p50-p95.png[align=center]
 
 This graph shows the response time of an AWS Lambda function under load. As one can see, the median response (P50) remained stable during the entire test-run with even the 90th and 95th percentile showing close to no variance <<serverless-scaling>>.
 
-As we wanted to reproduce the results ourselves, we created a simple benchmark to test scaling performance. We started out writing a lambda function which would return 50k bytes every time it is called. To prevent AWS from caching the result, we appended a random number to our return string and to speed up.
+As we wanted to reproduce the results ourselves, we created a simple benchmark to test scaling performance. We started out writing a lambda function which would return 50k bytes every time it is called. To prevent AWS from caching the result, we appended a random number to our return string.
 
 .Lambda function for load test
 ```js
@@ -251,7 +251,7 @@ l(t) = \lfloor{300*sin(\frac{\pi*t}{20}) + 200}\rfloor
 So our load testing program would look something like so:
 
 ```c
-const string URL = "https://cuhtt9xal1.execute-api.eu-central-1.amazonaws.com/prod";
+const string URL = "https://example.com/api/load-test";
 for (double min = 0; min <= 20; min++)
 {
     var r = Convert.ToInt32(Math.Floor(300 * Math.Sin(Math.PI * min / 20)) + 200); //<1>
@@ -363,11 +363,11 @@ image::../images/client-side-lb.png[align=center]
 
 Initially, we tried to do so by balancing the load from the client side with Netflix Ribbon (as you see in the picture above) but we changed our load balancing strategy to a DNS based one <<dns-lb>>, once we had to revise our backend architecture.
 
-Another important aspect to keep in mind is security. Both user data, as well as servers have to be kept secure. With a privacy-by-design based approach in mind, we tried to carefully design our backend and security strategy to be in line with the EU-GDPR. In the end, we abandoned our initial security strategy and used an external one instead.
+Another important aspect to keep in mind is security. Both user data, as well as servers have to be kept secure. With a privacy-by-design-based approach in mind, we tried to carefully design our backend and security strategy to be in line with the EU-GDPR. In the end, we abandoned our initial security strategy and used an external one instead.
 
 === 7.2 Initial Microservice Implementation
 
-To solve all of the above mentioned problems, we wanted to chose a technology with which we were familiar and which was sufficiently mature and advanced to suit even our more unusual design choices (like client side load balancing and polyglot persistence).
+To solve all of the above mentioned problems, we wanted to choose a technology with which we were familiar and which was sufficiently mature and advanced to suit even our more unusual design choices (like client side load balancing and polyglot persistence).
 
 Microservice seemed like the only feasible option since we were not aware of serverless technology and a monolithic architecture was not an option since we had to ensure efficient and cost-effective scalability of our platform.
 
@@ -383,7 +383,7 @@ This architecture map shows the initial architecture design of our project. The 
 
 Our authentication service (built with Spring Security) is in the layer bellow. Next to the authentication service, one can see all of our other services (also written in Spring Boot). All of our services are connected to a Logstash <<logstash>> instance which collects the logs of our services and sends them to an Elasticsearch <<elastic>> instance on a remote server so they can be analyzed and later visualized by Kibana <<kibana>>.
 
-We have opted to use a polyglot persistence approach. Not only was one of our partners requirements was to display the closest relation between stem:[n] people, but we also found a polyglot persistence approach, where one database managed relations and another stores data, the most reliable for a highly scalable social network.
+We have opted to use a polyglot persistence approach. Not only was one of our partner's requirements to display the closest relation between stem:[n] people, but we also found a polyglot persistence approach, where one database managed relations and another stores data, the most reliable for a highly scalable social network.
 
 Say we have a group of people, A-J. We want to know the closest connection between A and D (in this case: A-> G -> D).
 
@@ -424,7 +424,7 @@ We chose Couchbase <<couchbase>> because of its XDCR (**C**ross-**D**ata-**C**en
 
 ==== 7.2.2 Experience
 
-Our experience with Spring Boot and the Netflix stack was very pleasant. There is a plenty of documentation, both from Pivotal <<spring-pivotal>> and external sources <<spring-baeldung>>. We did not encounter any instabilities and even more experimental aspects of our project, like polyglot persistence, were very stable.
+Our experience with Spring Boot and the Netflix stack was very pleasant. There is plenty of documentation, both from Pivotal <<spring-pivotal>> and external sources <<spring-baeldung>>. We did not encounter any instabilities and even more experimental aspects of our project, like polyglot persistence, were very stable.
 
 ==== 7.2.3 Issues and Limitations
 
@@ -438,7 +438,7 @@ Most of our time savings came from not having to configure AWS Lambda. The scali
 
 Porting existing code to serverless was fairly trivial. Layered architecture still exists in a serverless environment, if a bit smaller. The major difference we had to get used to was the big focus on callback functions. The Spring Boot controllers were swapped with serverless hooks.
 
-In the following code-examples, I will write a controller, service and repository in both Spring Boot with Java and AWS Lambda with JavaScript. The example bellow is a simple GET function which returns a domain object (in this case: a `StatusUpdate`).
+In the following code-examples, I will write a controller, service and repository in both Spring Boot with Java and AWS Lambda with JavaScript. The example below is a simple GET function which returns a domain object (in this case: a `StatusUpdate`).
 
 <<<
 ==== 7.3.1 Controller
@@ -589,13 +589,13 @@ The yellow arrows bellow our main components symbolize the automatic scaling asp
 
 //TODO: Add screenshots and descriptions of AWS config
 
-=== 7.5 Comparison of Microservices and Serverless
+=== 7.4 Comparison of Microservices and Serverless
 
-When working with serverless architecture in AWS Lambda, we encountered some major differences to microservice architecture in Java with Spring Boot.
+When working with serverless architecture in AWS Lambda, we encountered some major differences to microservice architecture in Java with Spring Boot, the biggest of them being the language agnostic nature of the serverless architecture pattern.
 
-The biggest of them being the language agnostic nature of the serverless architecture pattern. It is definitely possible to use multiple languages in microservice architecture, but generally, mixing languages within a service is frowned upon. Due to the fact that serverless functions are closed system (every function is deployed on its own), polyglotism in within the serverless pattern is not only possible, but also easier to develop and to maintain.
+It is definitely possible to use multiple languages in microservice architecture, but generally, mixing languages within a service is frowned upon. Due to the fact that serverless functions are closed system (every function is deployed on its own), polyglotism within the serverless pattern is not only possible, but also easier to develop and to maintain than polyglotism in microservices.
 
-This is made possible by the modularity of serverless functions. A key difference to microservices which allows rapid development and deployment of serverless applications.
+This is made possible by the modularity of serverless functions, a key difference to microservices which allows rapid development and deployment of serverless applications.
 
 == 8. Results and Learnings
 
