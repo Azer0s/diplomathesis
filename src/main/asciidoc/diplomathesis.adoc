@@ -159,10 +159,11 @@ One of the most important advantages for us was the ease in development. Since A
 
 ==== 3.3.2 Drawbacks
 
-//TODO
-//lock in
-//less control (websockets, etc...)
-//imaturity (no right way of doing stuff)
+Since serverless architecture is still a relatively new technology, it still has some flaws and ways to go to be completely production-ready.
+
+One of the major issues of serverless technology is the vendor lock-in. Most of the cloud providers offering serverless hosting, require the applications to be written in their own specific framework. This makes it hard to switch cloud providers and might turn companies away from the technology <<serverless-cb>>.
+
+Additionally, due to the fact that serverless is not widely used, there are close to no coding guidelines for clean serverless backend code. Therefore, every company has to develop their own internal serverless coding guidelines, which makes both serverless open-source development, as well as integrating new employees into a development team harder <<serverless-cb>>.
 
 == 4. Scaling Architectures in Distributed Systems
 
