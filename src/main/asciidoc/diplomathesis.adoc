@@ -149,15 +149,13 @@ The difference to microservices here is that the serverless function can not do 
 
 ==== 3.3.1 Advantages
 
-//TODO
-
 Since serverless architecture was specifically designed to be more efficient at scale, the obvious advantage is scaling performance. Serverless architecture provides the framework to deliver excellent scaling properties, including "scale to zero".
 
 NOTE: "Scale to zero" means destroying all instances of a service. As soon as someone tries to access the service, an instance get spun up again. <<scale2zero>>
 
 Due to the fact that serverless frameworks take over most of the management aspects of deploying and maintaining operations, serverless architecture is easy to maintain; some would say a "no maintenance" system <<serverless-cb>>.
 
-//easy to develop
+One of the most important advantages for us was the ease in development. Since AWS services are very well integrated with each other and AWS infrastructure is both well tested and offers a lot of support for both developers and dev-ops, development is easy compared to microservices or monoliths. This is not only the case with AWS but also with other serverless hosting providers. Additionally, AWS Lambda offers a pay per execution pricing model with a generous free tier.
 
 ==== 3.3.2 Drawbacks
 
@@ -224,7 +222,91 @@ image::../images/aws-lambda-p50-p95.png[align=center]
 
 This graph shows the response time of an AWS Lambda function under load. As one can see, the median response (P50) remained stable during the entire test-run with even the 90th and 95th percentile showing close to no variance <<serverless-scaling>>.
 
-//TODO: Mention reproduction of this graph. Explain reproduction of this study.
+As we wanted to reproduce the results ourselves, we created a simple benchmark to test scaling performance. We started out writing a lambda function which would return 50k bytes every time it is called. To prevent AWS from caching the result, we appended a random number to our return string and to speed up.
+
+.Lambda function for load test
+```js
+exports.handler = async (event) => {
+
+    var payload = "Lorem ipsum dolor sit amet, [..]";
+    payload += Math.floor(Math.random() * Math.floor(100000000000));
+
+    const response = {
+        statusCode: 200,
+        body: payload,
+    };
+    return response;
+};
+```
+
+To model our load, we created a simple sin function that looks like so:
+
+[stem]
+++++
+l(t) = \lfloor{300*sin(\frac{\pi*t}{20}) + 200}\rfloor
+++++
+
+So our load testing program would look something like so:
+
+```c
+const string URL = "https://cuhtt9xal1.execute-api.eu-central-1.amazonaws.com/prod";
+for (double min = 0; min <= 20; min++)
+{
+    var r = Convert.ToInt32(Math.Floor(300 * Math.Sin(Math.PI * min / 20)) + 200); //<1>
+
+    for (var i = 0; i <= 60; i++)
+    {
+        Task.Run(() => //<2>
+        {
+            for (var j = 0; j < r; j++)
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        WebRequest.Create(URL).GetResponse(); //<3>
+                    }
+                    catch (Exception){ /*ignored*/ }
+                });
+            }
+        });
+        Thread.Sleep(TimeSpan.FromSeconds(1)); //<4>
+    }
+}
+```
+
+<1> Calculate the amount of stem:[\frac{requests}{second}]
+<2> Every second, we create stem:[n] threads
+<3> `WebRequest` is created, the response is discarded automatically
+<4> Since thread creation only takes some microseconds, we halt the main thread to stretch requests out over a minute
+
+We can now analyze the metrics in AWS Cloudwatch <<aws-cloudwatch>>.
+
+.Invocations over time
+[#img-awsinvoc]
+[.center]
+[caption="Figure 6: "]
+image::../images/aws-stats-3.png[align=center]
+
+This graph shows the amount of invocations over time. Since C# threads get pushed into a stack queue, it is clear why we can see a tailback in invocations. The total number of invocations still stays the same.
+
+.Runtime in milliseconds (min, max, avg)
+[#img-awsrun]
+[.center]
+[caption="Figure 7: "]
+image::../images/aws-stats-1.png[align=center]
+
+The maximum and minimum are not percentiles. Unfortunately, I was not able to get the raw data from Amazon and could not analyze the data further, but as one can see in our average line, the maximum values appear to be outliers.
+
+.Runtime in milliseconds (avg)
+[#img-awsruna]
+[.center]
+[caption="Figure 8: "]
+image::../images/aws-stats-2.png[align=center]
+
+Here we can see the average invocation time of the function. We have about one millisecond fluctuation range which is negligible, even in higher scale operations. As we can see, the average response time even gets lower under load. From 14:50 to 14:55 we reached peak load, but as we can see from the graph, the response times are clearly going down.
+
+The results of the performance benchmarks are astonishing. Not only were we able to prove the reference results <<serverless-scaling>>, we were also able to show that AWS Lambda performs best under load.
 
 == 5. Scaling Across Datacenters
 
@@ -558,46 +640,47 @@ Serverless technology is very promising, if a bit hard to get into. With time, a
 - [[[scale2zero, 24]]] Scale to Zero and Back Again with OpenFaaS | OpenFaaS - Serverless Functions Made Simple: https://www.openfaas.com/blog/zero-scale/
 - [[[threshold-scaling, 25]]] M. Mohan Murthy, H. Sanjay and Jumnal Anand. Threshold Based Auto Scaling of Virtual Machines in Cloud Environment https://hal.inria.fr/hal-01403090/document
 - [[[serverless-scaling, 26]]] Serverless at Scale: Serving StackOverflow-like Traffic - Binaris Blog: https://blog.binaris.com/serverless-at-scale/
-- [[[gcloud,27]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/
-- [[[aws, 28]]] - Amazon Web Services (AWS) - Cloud Computing Services: https://aws.amazon.com/
-- [[[azure,29]]] - Microsoft Azure Cloud Computing Platform & Services: https://azure.microsoft.com/en-us/
-- [[[public-vs-private-cloud, 30]]] - Is there a point where a private cloud is cheaper than the public cloud? | Network World: https://www.networkworld.com/article/2825994/is-there-a-point-where-a-private-cloud-is-cheaper-than-the-public-cloud.html
-- [[[public-cloud-pro, 31]]] 10 business benefits of moving to public cloud: https://www.clariontech.com/blog/10-business-benefits-of-moving-to-public-cloud
-- [[[hybrid-cloud-challenges, 32]]] What Are The Major Challenges Of Adopting A Hybrid Cloud Approach? - MiCORE Solutions: https://micoresolutions.com/major-challenges-adopting-hybrid-cloud-approach/
-- [[[day-2, 33]]] Defining Day-2 Operations - DZone Agile: https://dzone.com/articles/defining-day-2-operations
-- [[[dcos, 34]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/
-- [[[why-dcos, 35]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
-- [[[openshift, 36]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
-- [[[dcos-hybrid, 37]]] Introducing Hybrid Cloud Capabilities in DC/OS 1.11: Regions, Zones, and Linked Clusters - Mesosphere: https://mesosphere.com/blog/dcos-1_11-hybrid/
-- [[[orchestration-wiki, 38]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
-- [[[aws-elb, 39]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
-- [[[aws-vpc, 40]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
-- [[[aws-r53, 41]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
-- [[[aws-ec2, 42]]] Amazon EC2: https://aws.amazon.com/ec2/
-- [[[digitalocean, 43]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
-- [[[do-price, 44]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
-- [[[aws-price, 45]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
-- [[[apache-server, 46]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
-- [[[php-usage, 47]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
-- [[[mysql-usage, 48]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
-- [[[hhvm, 49]]] HHVM | HHVM: https://hhvm.com/
-- [[[memcached, 50]]] memcached - a distributed memory object caching system: http://memcached.org/
-- [[[fb-stack, 51]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
-- [[[haystack-paper, 52]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
-- [[[hadoop, 53]]] The Apache Hadoop project: https://hadoop.apache.org/
-- [[[hive, 54]]] The Apache Hive project: https://hive.apache.org/
-- [[[fb-first-server, 55]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
-- [[[dns-lb, 56]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
-- [[[spring, 57]]] Spring Boot: https://spring.io/projects/spring-boot
-- [[[netflix-zuul, 58]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
-- [[[netflix-eureka, 59]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
-- [[[logstash, 60]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
-- [[[elastic, 61]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
-- [[[kibana, 62]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
-- [[[neo4j-mysql-friends, 63]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
-- [[[couchbase, 64]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
-- [[[spring-pivotal, 65]]] Guides: https://spring.io/guides
-- [[[spring-baeldung, 66]]] Baeldung | Java, Spring and Web Development tutorials: https://www.baeldung.com/
-- [[[aws-rds, 67]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/
-- [[[aws-neptune, 68]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/
-- [[[aws-scaling, 69]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
+- [[[aws-cloudwatch, 27]]] Amazon CloudWatch - Application and Infrastructure Monitoring: https://aws.amazon.com/cloudwatch/
+- [[[gcloud,28]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/
+- [[[aws, 29]]] - Amazon Web Services (AWS) - Cloud Computing Services: https://aws.amazon.com/
+- [[[azure,30]]] - Microsoft Azure Cloud Computing Platform & Services: https://azure.microsoft.com/en-us/
+- [[[public-vs-private-cloud, 31]]] - Is there a point where a private cloud is cheaper than the public cloud? | Network World: https://www.networkworld.com/article/2825994/is-there-a-point-where-a-private-cloud-is-cheaper-than-the-public-cloud.html
+- [[[public-cloud-pro, 32]]] 10 business benefits of moving to public cloud: https://www.clariontech.com/blog/10-business-benefits-of-moving-to-public-cloud
+- [[[hybrid-cloud-challenges, 33]]] What Are The Major Challenges Of Adopting A Hybrid Cloud Approach? - MiCORE Solutions: https://micoresolutions.com/major-challenges-adopting-hybrid-cloud-approach/
+- [[[day-2, 34]]] Defining Day-2 Operations - DZone Agile: https://dzone.com/articles/defining-day-2-operations
+- [[[dcos, 35]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/
+- [[[why-dcos, 36]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
+- [[[openshift, 37]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
+- [[[dcos-hybrid, 38]]] Introducing Hybrid Cloud Capabilities in DC/OS 1.11: Regions, Zones, and Linked Clusters - Mesosphere: https://mesosphere.com/blog/dcos-1_11-hybrid/
+- [[[orchestration-wiki, 39]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
+- [[[aws-elb, 40]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
+- [[[aws-vpc, 41]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
+- [[[aws-r53, 42]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
+- [[[aws-ec2, 43]]] Amazon EC2: https://aws.amazon.com/ec2/
+- [[[digitalocean, 44]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
+- [[[do-price, 45]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
+- [[[aws-price, 46]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
+- [[[apache-server, 47]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
+- [[[php-usage, 48]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
+- [[[mysql-usage, 49]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
+- [[[hhvm, 50]]] HHVM | HHVM: https://hhvm.com/
+- [[[memcached, 51]]] memcached - a distributed memory object caching system: http://memcached.org/
+- [[[fb-stack, 52]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
+- [[[haystack-paper, 53]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
+- [[[hadoop, 54]]] The Apache Hadoop project: https://hadoop.apache.org/
+- [[[hive, 55]]] The Apache Hive project: https://hive.apache.org/
+- [[[fb-first-server, 56]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
+- [[[dns-lb, 57]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
+- [[[spring, 58]]] Spring Boot: https://spring.io/projects/spring-boot
+- [[[netflix-zuul, 59]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
+- [[[netflix-eureka, 60]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
+- [[[logstash, 61]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
+- [[[elastic, 62]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
+- [[[kibana, 63]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
+- [[[neo4j-mysql-friends, 64]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
+- [[[couchbase, 65]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
+- [[[spring-pivotal, 66]]] Guides: https://spring.io/guides
+- [[[spring-baeldung, 67]]] Baeldung | Java, Spring and Web Development tutorials: https://www.baeldung.com/
+- [[[aws-rds, 68]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/
+- [[[aws-neptune, 69]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/
+- [[[aws-scaling, 70]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
