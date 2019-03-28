@@ -247,6 +247,7 @@ To model our load, we created a simple sin function that looks like so:
 l(t) = \lfloor{300*sin(\frac{\pi*t}{20}) + 200}\rfloor
 ++++
 
+<<<
 So our load testing program would look something like so:
 
 ```c
@@ -317,7 +318,7 @@ This "computation-outsourcing" is often referred to as a "hybrid cloud" compared
 
 Although hybrid and public cloud systems seem to solve many problems with private cloud computing, like having to maintain less hardware yourself, being cheaper (to a certain point <<public-vs-private-cloud>>) and having SLA's in place which ensure uptime <<public-cloud-pro>>, there are some difficulties in hybrid/public clouds.
 
-Things like integration complexity, network design or scale management can complicate a deployment or prevent a successful deployment altogether. <<hybrid-cloud-challenges>>
+Things like integration complexity, network design or scale management can complicate a deployment or prevent a successful deployment altogether <<hybrid-cloud-challenges>>.
 
 To overcome these problems many companies launched their own day-2 <<day-2>> management solutions like DC/OS <<dcos>> <<why-dcos>> or OpenShift <<openshift>>.
 
@@ -335,6 +336,7 @@ As we wanted low latency access for all of our users (including, but not limited
 
 Our initial approach was using DigitialOcea <<digitalocean>>  with DC/OS. This solution would have given us finer control over our application and VMs, and even though DigitalOcean was cheaper (8 CPUs, 32 GB RAM - DigitalOcean<<do-price>>: $0.238/hr; AWS<<aws-price>>: $0.384/hr), it was ultimately written off as it would have been more complicated to set up and did not offer the same enterprise grade features and locations as AWS did.
 
+<<<
 == 7. Implementation of Social Networks
 
 One of the best example of how social network architecture changed over the years is Facebook. Facebook started out with the very common PHP+MySQL stack all running on an Apache WebServer <<apache-server>>. This comes as no surprise as both PHP and MySQL are two of the most used technologies for web development. <<php-usage>> <<mysql-usage>>
@@ -369,7 +371,6 @@ To solve all of the above mentioned problems, we wanted to chose a technology wi
 
 Microservice seemed like the only feasible option since we were not aware of serverless technology and a monolithic architecture was not an option since we had to ensure efficient and cost-effective scalability of our platform.
 
-<<<
 ==== 7.2.1 System Architecture
 
 .Initial Initiative Interchange backend architecture
@@ -388,7 +389,7 @@ Say we have a group of people, A-J. We want to know the closest connection betwe
 
 .Friends diagram
 [caption="Figure 9: "]
-[align=center]
+[align=center, pdfwidth=6.25cm, borderopacity=1.0]
 [graphviz,frienddia,svg]
 ---------------------------------------------------------------------
 digraph G {
@@ -584,7 +585,7 @@ Next to API Gateway, one can see the three main parts of our application, consis
 
 The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy <<aws-scaling>> (threshold based <<threshold-scaling>>).
 
-=== 7.4 Cloud Configuration
+//=== 7.4 Cloud Configuration
 
 //TODO: Add screenshots and descriptions of AWS config
 
@@ -598,8 +599,10 @@ This is made possible by the modularity of serverless functions. A key differenc
 
 == 8. Results and Learnings
 
-<WIP>
-//TODO: Great results (scaling benchmarks), we learned to port technology (???)
+One of our most relevant achivements in this project was the evaluation of serverless scaling performance. As we realized through our own benchmarks, serverless architecture does not only scale better than both microservices and monoliths, but is actually more efficient under high load.
+
+Furthermore, one of our biggest learning aspects in the project was the porting of already existing backend code. When we had to switch from microservices to serverless, we also had to port and rewrite already existing parts of the application. Having to do so gave us a greater understanding of the both of the used backend technologies.
+
 
 == 9. Summary and Conclusions
 
