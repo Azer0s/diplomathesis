@@ -178,7 +178,7 @@ Since the monolithic architecture only scales through a replicated database, the
 c_{scaled_{mon}} = s*((\sum_{i=0}^l n_i)+m) + b + nc
 ++++
 
-Even though scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
+Even though scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling, and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
 
 === 4.2 Microservices
 
@@ -601,7 +601,7 @@ This is made possible by the modularity of serverless functions, a key differenc
 
 One of our most relevant achivements in this project was the evaluation of serverless scaling performance. As we realized through our own benchmarks, serverless architecture does not only scale better than both microservices and monoliths, but is actually more efficient under high load.
 
-Furthermore, one of our biggest learning aspects in the project was the porting of already existing backend code. When we had to switch from microservices to serverless, we also had to port and rewrite already existing parts of the application. Having to do so gave us a greater understanding of the both of the used backend technologies.
+Furthermore, the biggest learning aspects in the project for us was the porting of already existing backend code. When we had to switch from microservices to serverless, we also had to port and rewrite already existing parts of the application. Having to do so gave us a greater understanding of both of the used backend technologies.
 
 
 == 9. Summary and Conclusions
