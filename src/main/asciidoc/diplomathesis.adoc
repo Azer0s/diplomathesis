@@ -119,7 +119,7 @@ The architecture for a system which builds upon a microservice architecture coul
 
 .Netflix microservice architecture stack
 [#img-microservices]
-[caption="Figure 2: "]
+[caption="Figure 3: "]
 image::../images/MicroserviceArchitectureSpring.png[align=center]
 
 This implementation of the microservice architecture utilizes the Netflix stack. The Netflix stack is a collection of libraries to make dealing with microservices easier. At the top of the architecture, there is the API gateway (the service that forwards requests to the services based on their route). Down below, there are the actual services with their corresponding databases (Couchbase in this particular example). Microservices do not always need to have their own database, but can also all have the same database.
@@ -131,16 +131,16 @@ Serverless architecture was created out of the need for more efficient scalabili
 
 .Gartner hype cycle 2017 <<hypecycle, [19]>>
 [#img-hypecycle]
-[caption="Figure 3: "]
+[caption="Figure 4: "]
 image::../images/hypecycle_2017.jpg[align=center]
 
 Serverless architecture is a very new concept. According to the Gartner Hypecycle of Emerging Technologies 2017 <<hypecycle>> (see: above), serverless architecture is still a very new and immature technology. So young even, that it, as of July 2017, was not even in its hype phase ("Peak of Inflated Expectation") with an estimated time-to-plateau of 2 to 5 years. This means that at earliest, serverless technology will be nearing maturity in early Q3 of 2019 and latest in early Q3 of 2023.
 
 The design process of serverless applications is a bit more abstract than that of monoliths or microservices, since we do not work with controllers or typical response models, but rather with functions and events.
 
-.Serverless functions <<serverless-cb,[20]>>
+.Serverless function invocation flow <<serverless-cb,[20]>>
 [#img-slaws]
-[caption="Figure 4: "]
+[caption="Figure 5: "]
 image::../images/serverlessfunction.png[align=center]
 
 This diagram shows the flow of a serverless function <<serverless-cb>>. The dispatcher, in this case AWS Kinesis <<aws-kinesis>>, a real time analysis tool, triggers an AWS Lambda <<aws-lambda>> function through a direct call. The serverless function, then inserts data into the database, AWS DynamoDB <<aws-dynamodb>> in this case, and returns a result.
@@ -210,7 +210,7 @@ The graph bellow shows a visual representation of the same computational space u
 .Scaling overhead
 [#img-scalingoverhead]
 [.center]
-[caption="Figure 4: "]
+[caption="Figure 6: "]
 image::../images/scaling.png[align=center]
 
 This also means that one can never use more than the upper threshold defined for an operation, thus not utilizing the full potential of ones computational resources. The serverless architecture pattern solves that problem by shrinking down the unit of compute to the smallest possible size (functions), thus allowing more instances with a higher scaling threshold.
@@ -218,7 +218,7 @@ This also means that one can never use more than the upper threshold defined for
 .AWS Lambda Response Time Distribution (P50-P95) <<serverless-scaling,[26]>>
 [#img-lambdaspeed]
 [.center]
-[caption="Figure 5: "]
+[caption="Figure 7: "]
 image::../images/aws-lambda-p50-p95.png[align=center]
 
 This graph shows the response time of an AWS Lambda function under load. As one can see, the median response (P50) remained stable during the entire test-run with even the 90th and 95th percentile showing close to no variance <<serverless-scaling>>.
@@ -287,7 +287,7 @@ We can now analyze the metrics in AWS Cloudwatch <<aws-cloudwatch>>.
 .Invocations over time
 [#img-awsinvoc]
 [.center]
-[caption="Figure 6: "]
+[caption="Figure 8: "]
 image::../images/aws-stats-3.png[align=center]
 
 This graph shows the amount of invocations over time. Since C# threads get pushed into a stack queue, it is clear why we can see a tailback in invocations. The total number of invocations still stays the same.
@@ -295,7 +295,7 @@ This graph shows the amount of invocations over time. Since C# threads get pushe
 .Runtime in milliseconds (min, max, avg)
 [#img-awsrun]
 [.center]
-[caption="Figure 7: "]
+[caption="Figure 9: "]
 image::../images/aws-stats-1.png[align=center]
 
 The maximum and minimum are not percentiles. Unfortunately, I was not able to get the raw data from Amazon and could not analyze the data further, but as one can see in our average line, the maximum values appear to be outliers.
@@ -303,7 +303,7 @@ The maximum and minimum are not percentiles. Unfortunately, I was not able to ge
 .Runtime in milliseconds (avg)
 [#img-awsruna]
 [.center]
-[caption="Figure 8: "]
+[caption="Figure 10: "]
 image::../images/aws-stats-2.png[align=center]
 
 Here we can see the average invocation time of the function. We have about one millisecond fluctuation range which is negligible, even in higher scale operations. As we can see, the average response time even gets lower under load. From 14:50 to 14:55 we reached peak load, but as we can see from the graph, the response times are clearly going down.
@@ -322,10 +322,10 @@ Things like integration complexity, network design or scale management can compl
 
 To overcome these problems many companies launched their own day-2 <<day-2>> management solutions like DC/OS <<dcos>> <<why-dcos>> or OpenShift <<openshift>>.
 
-.DCOS Hybrid cloud <<dcos-hybrid,[37]>>
+.DCOS Hybrid cloud <<dcos-hybrid,[38]>>
 [#img-dcoshybrid]
 [.center]
-[caption="Figure 6: "]
+[caption="Figure 11: "]
 image::../images/DCOSHybrid.jpg[align=center]
 
 This image shows a DC/OS cluster which is deployed on a hybrid cloud <<dcos-hybrid>>. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
@@ -358,7 +358,7 @@ Since Initiative Interchange has members in 5 continents, we needed to ensure ac
 .Client side load balacing
 [#img-clientlb]
 [.center]
-[caption="Figure 7: "]
+[caption="Figure 12: "]
 image::../images/client-side-lb.png[align=center]
 
 Initially, we tried to do so by balancing the load from the client side with Netflix Ribbon (as you see in the picture above) but we changed our load balancing strategy to a DNS based one <<dns-lb>>, once we had to revise our backend architecture.
@@ -376,7 +376,7 @@ Microservice seemed like the only feasible option since we were not aware of ser
 .Initial Initiative Interchange backend architecture
 [#img-i2springarch]
 [.center]
-[caption="Figure 8: "]
+[caption="Figure 13: "]
 image::../images/i2-architecture-spring.png[align=center]
 
 This architecture map shows the initial architecture design of our project. The underlying technology we are using is Spring Boot <<spring>>, a Java framework for enterprise-grade web applications. At the top of the map, one can see our API gateway and proxy: Netflix Zuul <<netflix-zuul>>. All services (including our authentication service) register to Zuul via Netflix Eureka <<netflix-eureka>>, a registry service for Spring Boot microservices.
@@ -388,7 +388,8 @@ We have opted to use a polyglot persistence approach. Not only was one of our pa
 Say we have a group of people, A-J. We want to know the closest connection between A and D (in this case: A-> G -> D).
 
 .Friends diagram
-[caption="Figure 9: "]
+[caption="Figure 14: "]
+[#dia-friends]
 [align=center, pdfwidth=6.25cm, borderopacity=1.0]
 [graphviz,frienddia,svg]
 ---------------------------------------------------------------------
@@ -415,7 +416,7 @@ digraph G {
 .Neo4j vs MySQL query time comparison
 [#img-neo4jcomp]
 [.center]
-[caption="Figure 10: "]
+[caption="Figure 15: "]
 image::../images/neo4j-vs-mysql.PNG[align=center]
 
 The graph above shows the response time of both MySQL as well as Neo4j for such a use-case in a database with 1,000,000 users <<neo4j-mysql-friends>>. As one can see, the relational database did not even finish on a depth of 5.
@@ -570,7 +571,7 @@ In JavaScript, we have to use the `mysql` library and manually write the SQL que
 .New Initiative Interchange backend architecture
 [#img-i2awsarch]
 [.center]
-[caption="Figure 11: "]
+[caption="Figure 16: "]
 image::../images/i2-architecture-aws.png[align=center, pdfwidth=17.3cm]
 
 The image above shows our new architecture map. Due to the fact that we are using a serverless approach, the architecture map is a very abstract version of our technology stack.
@@ -688,3 +689,22 @@ Serverless technology is very promising, if a bit hard to get into. With time, a
 - [[[aws-rds, 68]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/
 - [[[aws-neptune, 69]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/
 - [[[aws-scaling, 70]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
+
+== Illustration directory
+
+* Figure 1: <<img-monolith>>
+* Figure 2: <<img-msstack>>
+* Figure 3: <<img-microservices>>
+* Figure 4: <<img-hypecycle>>
+* Figure 5: <<img-slaws>>
+* Figure 6: <<img-scalingoverhead>>
+* Figure 7: <<img-lambdaspeed>>
+* Figure 8: <<img-awsinvoc>>
+* Figure 9: <<img-awsrun>>
+* Figure 10: <<img-awsruna>>
+* Figure 11: <<img-dcoshybrid>>
+* Figure 12: <<img-clientlb>>
+* Figure 13: <<img-i2springarch>>
+* Figure 14: <<dia-friends>>
+* Figure 15: <<img-neo4jcomp>>
+* Figure 16: <<img-i2awsarch>>
