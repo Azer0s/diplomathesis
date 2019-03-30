@@ -248,7 +248,8 @@ l(t) = \lfloor{300*sin(\frac{\pi*t}{20}) + 200}\rfloor
 ++++
 
 <<<
-So our load testing program would look something like so:
+
+We did the load testing with C#. Here is a snippet from the program:
 
 ```c
 const string URL = "https://example.com/api/load-test";
