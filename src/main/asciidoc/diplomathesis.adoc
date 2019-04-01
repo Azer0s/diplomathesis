@@ -199,7 +199,7 @@ As one can deduct from the formulae above, scaling a monolith can be less expens
 
 Scaling serverless systems looks very similar to microservice scaling. The major difference here is, of course, the unit of compute. This means that the base cost of serverless scaling is even higher (because serverless architecture requires more runtime instances to achieve the same result) than for a microservice architecture. Therefore, using serverless makes the most sense when the base cost of a system does not matter and only scaling performance is relevant.
 
-=== 4.4 Difficulties with scaling
+=== 4.4 Difficulties with Scaling
 
 As previously mentioned, both the monolithic architecture as well as microservice architecture do encounter some efficiency problems while scaling. The reason for that are the deployment containers one typically uses when dealing with monolith/microservice scaling (VMs and containers). When scaling VMs or containers, we always deal with threshold based scaling <<threshold-scaling>>. This means that we scale (add or remove) a deployment based on system resources used. Generally, we define both a lower threshold (~25% CPU load) and an upper threshold (~80% CPU load) for our system.
 
@@ -331,7 +331,7 @@ image::../images/DCOSHybrid.jpg[align=center]
 
 This image shows a DC/OS cluster which is deployed on a hybrid cloud <<dcos-hybrid>>. Some nodes (including the master nodes which act as the orchestrators <<orchestration-wiki>> for the system) are running on-premise, while others are running on different public clouds.
 
-== 6. Cloud architecture in Initiative Interchange
+== 6. Cloud Architecture in Initiative Interchange
 
 As we wanted low latency access for all of our users (including, but not limited to,  users in Canada , US, El Salvador, Mexico, Brazil, Argentina, Uruguay, Venezuela, Peru, Austria, Switzerland, Germany, France, Italy and Ukraine) and did not have enough money to launch a private cloud or enough knowledge to design our own public cloud infrastructure, we chose to deploy our application on AWS and utilize AWS infrastructure services (load balancing via AWS ELB <<aws-elb>>; networking via AWS VPC <<aws-vpc>>; global load balancing and DNS resolving via AWS Route 53 <<aws-r53>>; VMs on AWS EC2 <<aws-ec2>>) to our advantage.
 
