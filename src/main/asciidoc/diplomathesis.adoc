@@ -113,7 +113,7 @@ This formula describes the resource consumption of a monolith where stem:[n_i] i
 c_{ms} = \sum_{i=0}^l (n_i+m_i)
 ++++
 
-This formula describes the resource consumption of a system built on microservice architecture. Here, the cost of the runtime instance is added to every layer (or in that case service) one adds to the system.
+This formula describes the resource consumption of a system built on microservice architecture. Here, the cost of the runtime instance stem:[m_i] is added to every layer stem:[n_i] (or in that case service) one adds to the system. Since every service can be written in another language, the runtime cost stem:[m_i] can vary from service to service.
 
 The architecture for a system which builds upon a microservice architecture could look like this:
 
@@ -175,7 +175,7 @@ Since the monolithic architecture only scales through a replicated database, the
 
 [stem]
 ++++
-c_{scaled_{mon}} = s*((\sum_{i=0}^l n_i)+m) + b + nc
+c_{scaled_{mon}} = s*((\sum_{i=0}^l n_i)+m) + c_{lb} + c_{net}
 ++++
 
 Even though scaling a monolith is quite efficient, due to the fact that one is not able to run scale individual monolith instances, one has to scale the entire monolith if one part of the domain model experiences a random hit. This means some parts of a monolith might not be used at all when scaling, and scaling them is just a side-effect of wanting to scale one particular part of the system, which, in-turn, means unused resourced and higher cost.
