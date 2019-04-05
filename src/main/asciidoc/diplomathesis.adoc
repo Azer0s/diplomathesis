@@ -587,10 +587,6 @@ Next to API Gateway, one can see the three main parts of our application, consis
 
 The yellow arrows bellow our main components symbolize the automatic scaling aspect of our application. AWS Lambda scales on a per-request basis while both AWS RDS and AWS Neptune scale by an EC2 scale policy <<aws-scaling>> (threshold based <<threshold-scaling>>).
 
-//=== 7.4 Cloud Configuration
-
-//TODO: Add screenshots and descriptions of AWS config
-
 === 7.4 Comparison of Microservices and Serverless
 
 When working with serverless architecture in AWS Lambda, we encountered some major differences to microservice architecture in Java with Spring Boot, the biggest of them being the language agnostic nature of the serverless architecture pattern.
