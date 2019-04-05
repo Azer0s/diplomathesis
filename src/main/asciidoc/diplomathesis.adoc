@@ -620,76 +620,76 @@ Serverless technology is very promising, if a bit hard to get into. With time, a
 [bibliography]
 == 10. References
 
-- [[[ii,1]]] Initiative Interchange: https://www.initiative-interchange.org/
-- [[[rotary, 2]]] Home | Rotary International: https://www.rotary.org/en
-- [[[unicef, 3]]] Home page | UNICEF: https://www.unicef.org/
-- [[[distributed,4]]] A Thorough Introduction to Distributed Systems – freeCodeCamp.org: https://medium.freecodecamp.org/a-thorough-introduction-to-distributed-systems-3b91562c9b3c
-- [[[system-arch, 5]]] What is Systems Architecture ?: https://www.lix.polytechnique.fr/~golden/systems_architecture.html
-- [[[cloud-arch, 6]]] What is cloud computing architecture? | HCL Technologies: https://www.hcltech.com/technology-qa/what-is-cloud-architecture
-- [[[monolith,7]]] Introduction to Monolithic Architecture and MicroServices Architecture: https://medium.com/koderlabs/introduction-to-monolithic-architecture-and-microservices-architecture-b211a5955c63
-- [[[layered-architecture,8]]] 1. Layered Architecture - Software Architecture Patterns [Book]: https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html
-- [[[monolith-codingthearchitecture,9]]] What is a Monolith? - Coding the Architecture: http://www.codingthearchitecture.com/2014/11/19/what_is_a_monolith.html
-- [[[monolith-doomed,10]]] Are Monolithic Software Applications Doomed for Extinction? - Nortal: https://nortal.com/de/blog/are-monolithic-software-applications-doomed-for-extinction/
-- [[[microservices-history,11]]] Microservices: What They Are and Why Use Them: https://blog.leanix.net/en/a-brief-history-of-microservices
-- [[[microservices-krakow,12]]] 33rd Degree - Conference for Java Masters - Micro services - Java, the Unix Way: http://2012.33degree.org/talk/show/67; http://2012.33degree.org/pdf/JamesLewisMicroServices.pdf
-- [[[microservices-fowler,13]]] Microservices: https://martinfowler.com/articles/microservices.html
-- [[[microservices-medium,14]]] Talking microservices with the man who made Netflix’s cloud famous: https://medium.com/s-c-a-l-e/talking-microservices-with-the-man-who-made-netflix-s-cloud-famous-1032689afed3
-- [[[microservices-cicd,15]]] Continuous Deployment and Monitoring of Microservices - DevOps.com: https://devops.com/continuous-deployment-monitoring-microservices/
-- [[[microservices-dzone,16]]] Monolithic vs Microservice Architecture - DZone Integration: https://dzone.com/articles/monolithic-vs-microservice-architecture
-- [[[fowler-serverless, 17]]] Serverless Architectures: https://martinfowler.com/articles/serverless.html
-- [[[serverless-bw, 18]]] Serverless Computing, Explained - Boolean World: https://www.booleanworld.com/serverless-computing-explained/
-- [[[hypecycle, 19]]] Top Trends in the Gartner Hype Cycle for Emerging Technologies, 2017 - Smarter With Gartner: https://www.gartner.com/smarterwithgartner/top-trends-in-the-gartner-hype-cycle-for-emerging-technologies-2017/
-- [[[serverless-cb, 20]]] Why “serverless” architecture isn’t the HOLY GRAIL (yet): https://codeburst.io/why-serverless-architecture-isnt-the-holy-grail-yet-94a095325fa4
-- [[[aws-kinesis, 21]]] Amazon Kinesis: https://aws.amazon.com/kinesis/
-- [[[aws-lambda, 22]]] AWS Lambda – Serverless Compute - Amazon Web Services: https://aws.amazon.com/lambda/
-- [[[aws-dynamodb, 23]]] Amazon DynamoDB - Overview: https://aws.amazon.com/dynamodb/
-- [[[scale2zero, 24]]] Scale to Zero and Back Again with OpenFaaS | OpenFaaS - Serverless Functions Made Simple: https://www.openfaas.com/blog/zero-scale/
-- [[[threshold-scaling, 25]]] M. Mohan Murthy, H. Sanjay and Jumnal Anand. Threshold Based Auto Scaling of Virtual Machines in Cloud Environment https://hal.inria.fr/hal-01403090/document
-- [[[serverless-scaling, 26]]] Serverless at Scale: Serving StackOverflow-like Traffic - Binaris Blog: https://blog.binaris.com/serverless-at-scale/
-- [[[aws-cloudwatch, 27]]] Amazon CloudWatch - Application and Infrastructure Monitoring: https://aws.amazon.com/cloudwatch/
-- [[[gcloud,28]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/
-- [[[aws, 29]]] - Amazon Web Services (AWS) - Cloud Computing Services: https://aws.amazon.com/
-- [[[azure,30]]] - Microsoft Azure Cloud Computing Platform & Services: https://azure.microsoft.com/en-us/
-- [[[public-vs-private-cloud, 31]]] - Is there a point where a private cloud is cheaper than the public cloud? | Network World: https://www.networkworld.com/article/2825994/is-there-a-point-where-a-private-cloud-is-cheaper-than-the-public-cloud.html
-- [[[public-cloud-pro, 32]]] 10 business benefits of moving to public cloud: https://www.clariontech.com/blog/10-business-benefits-of-moving-to-public-cloud
-- [[[hybrid-cloud-challenges, 33]]] What Are The Major Challenges Of Adopting A Hybrid Cloud Approach? - MiCORE Solutions: https://micoresolutions.com/major-challenges-adopting-hybrid-cloud-approach/
-- [[[day-2, 34]]] Defining Day-2 Operations - DZone Agile: https://dzone.com/articles/defining-day-2-operations
-- [[[dcos, 35]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/
-- [[[why-dcos, 36]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/
-- [[[openshift, 37]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/
-- [[[dcos-hybrid, 38]]] Introducing Hybrid Cloud Capabilities in DC/OS 1.11: Regions, Zones, and Linked Clusters - Mesosphere: https://mesosphere.com/blog/dcos-1_11-hybrid/
-- [[[orchestration-wiki, 39]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing)
-- [[[aws-elb, 40]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/
-- [[[aws-vpc, 41]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/
-- [[[aws-r53, 42]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/
-- [[[aws-ec2, 43]]] Amazon EC2: https://aws.amazon.com/ec2/
-- [[[digitalocean, 44]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/
-- [[[do-price, 45]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute
-- [[[aws-price, 46]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/
-- [[[apache-server, 47]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/
-- [[[php-usage, 48]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all
-- [[[mysql-usage, 49]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking
-- [[[hhvm, 50]]] HHVM | HHVM: https://hhvm.com/
-- [[[memcached, 51]]] memcached - a distributed memory object caching system: http://memcached.org/
-- [[[fb-stack, 52]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/
+- [[[ii,1]]] Initiative Interchange: https://www.initiative-interchange.org/ [Last accessed: 25/3/2019]
+- [[[rotary, 2]]] Home | Rotary International: https://www.rotary.org/en [Last accessed: 25/3/2019]
+- [[[unicef, 3]]] Home page | UNICEF: https://www.unicef.org/ [Last accessed: 25/3/2019]
+- [[[distributed,4]]] A Thorough Introduction to Distributed Systems – freeCodeCamp.org: https://medium.freecodecamp.org/a-thorough-introduction-to-distributed-systems-3b91562c9b3c [Last accessed: 25/3/2019]
+- [[[system-arch, 5]]] What is Systems Architecture ?: https://www.lix.polytechnique.fr/~golden/systems_architecture.html [Last accessed: 25/3/2019]
+- [[[cloud-arch, 6]]] What is cloud computing architecture? | HCL Technologies: https://www.hcltech.com/technology-qa/what-is-cloud-architecture [Last accessed: 25/3/2019]
+- [[[monolith,7]]] Introduction to Monolithic Architecture and MicroServices Architecture: https://medium.com/koderlabs/introduction-to-monolithic-architecture-and-microservices-architecture-b211a5955c63 [Last accessed: 25/3/2019]
+- [[[layered-architecture,8]]] 1. Layered Architecture - Software Architecture Patterns [Book]: https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html [Last accessed: 25/3/2019]
+- [[[monolith-codingthearchitecture,9]]] What is a Monolith? - Coding the Architecture: http://www.codingthearchitecture.com/2014/11/19/what_is_a_monolith.html [Last accessed: 25/3/2019]
+- [[[monolith-doomed,10]]] Are Monolithic Software Applications Doomed for Extinction? - Nortal: https://nortal.com/de/blog/are-monolithic-software-applications-doomed-for-extinction/ [Last accessed: 25/3/2019]
+- [[[microservices-history,11]]] Microservices: What They Are and Why Use Them: https://blog.leanix.net/en/a-brief-history-of-microservices [Last accessed: 25/3/2019]
+- [[[microservices-krakow,12]]] 33rd Degree - Conference for Java Masters - Micro services - Java, the Unix Way: http://2012.33degree.org/talk/show/67; http://2012.33degree.org/pdf/JamesLewisMicroServices.pdf [Last accessed: 25/3/2019]
+- [[[microservices-fowler,13]]] Microservices: https://martinfowler.com/articles/microservices.html [Last accessed: 25/3/2019]
+- [[[microservices-medium,14]]] Talking microservices with the man who made Netflix’s cloud famous: https://medium.com/s-c-a-l-e/talking-microservices-with-the-man-who-made-netflix-s-cloud-famous-1032689afed3 [Last accessed: 25/3/2019]
+- [[[microservices-cicd,15]]] Continuous Deployment and Monitoring of Microservices - DevOps.com: https://devops.com/continuous-deployment-monitoring-microservices/ [Last accessed: 25/3/2019]
+- [[[microservices-dzone,16]]] Monolithic vs Microservice Architecture - DZone Integration: https://dzone.com/articles/monolithic-vs-microservice-architecture [Last accessed: 25/3/2019]
+- [[[fowler-serverless, 17]]] Serverless Architectures: https://martinfowler.com/articles/serverless.html [Last accessed: 25/3/2019]
+- [[[serverless-bw, 18]]] Serverless Computing, Explained - Boolean World: https://www.booleanworld.com/serverless-computing-explained/ [Last accessed: 25/3/2019]
+- [[[hypecycle, 19]]] Top Trends in the Gartner Hype Cycle for Emerging Technologies, 2017 - Smarter With Gartner: https://www.gartner.com/smarterwithgartner/top-trends-in-the-gartner-hype-cycle-for-emerging-technologies-2017/ [Last accessed: 25/3/2019]
+- [[[serverless-cb, 20]]] Why “serverless” architecture isn’t the HOLY GRAIL (yet): https://codeburst.io/why-serverless-architecture-isnt-the-holy-grail-yet-94a095325fa4 [Last accessed: 25/3/2019]
+- [[[aws-kinesis, 21]]] Amazon Kinesis: https://aws.amazon.com/kinesis/ [Last accessed: 25/3/2019]
+- [[[aws-lambda, 22]]] AWS Lambda – Serverless Compute - Amazon Web Services: https://aws.amazon.com/lambda/ [Last accessed: 25/3/2019]
+- [[[aws-dynamodb, 23]]] Amazon DynamoDB - Overview: https://aws.amazon.com/dynamodb/ [Last accessed: 25/3/2019]
+- [[[scale2zero, 24]]] Scale to Zero and Back Again with OpenFaaS | OpenFaaS - Serverless Functions Made Simple: https://www.openfaas.com/blog/zero-scale/ [Last accessed: 25/3/2019]
+- [[[threshold-scaling, 25]]] M. Mohan Murthy, H. Sanjay and Jumnal Anand. Threshold Based Auto Scaling of Virtual Machines in Cloud Environment https://hal.inria.fr/hal-01403090/document [Last accessed: 25/3/2019]
+- [[[serverless-scaling, 26]]] Serverless at Scale: Serving StackOverflow-like Traffic - Binaris Blog: https://blog.binaris.com/serverless-at-scale/ [Last accessed: 25/3/2019]
+- [[[aws-cloudwatch, 27]]] Amazon CloudWatch - Application and Infrastructure Monitoring: https://aws.amazon.com/cloudwatch/ [Last accessed: 25/3/2019]
+- [[[gcloud,28]]] - Google Cloud including GCP & G Suite — Try Free  |  Google Cloud: https://cloud.google.com/ [Last accessed: 25/3/2019]
+- [[[aws, 29]]] - Amazon Web Services (AWS) - Cloud Computing Services: https://aws.amazon.com/ [Last accessed: 25/3/2019]
+- [[[azure,30]]] - Microsoft Azure Cloud Computing Platform & Services: https://azure.microsoft.com/en-us/ [Last accessed: 25/3/2019]
+- [[[public-vs-private-cloud, 31]]] - Is there a point where a private cloud is cheaper than the public cloud? | Network World: https://www.networkworld.com/article/2825994/is-there-a-point-where-a-private-cloud-is-cheaper-than-the-public-cloud.html [Last accessed: 25/3/2019]
+- [[[public-cloud-pro, 32]]] 10 business benefits of moving to public cloud: https://www.clariontech.com/blog/10-business-benefits-of-moving-to-public-cloud [Last accessed: 25/3/2019]
+- [[[hybrid-cloud-challenges, 33]]] What Are The Major Challenges Of Adopting A Hybrid Cloud Approach? - MiCORE Solutions: https://micoresolutions.com/major-challenges-adopting-hybrid-cloud-approach/ [Last accessed: 25/3/2019]
+- [[[day-2, 34]]] Defining Day-2 Operations - DZone Agile: https://dzone.com/articles/defining-day-2-operations [Last accessed: 25/3/2019]
+- [[[dcos, 35]]] The Definitive Platform for Modern Apps | DC/OS: https://dcos.io/ [Last accessed: 25/3/2019]
+- [[[why-dcos, 36]]] Why DC/OS | DC/OS: https://dcos.io/why-dcos/ [Last accessed: 25/3/2019]
+- [[[openshift, 37]]] OpenShift: Container Application Platform by Red Hat, Built on Docker and Kubernetes: https://www.openshift.com/ [Last accessed: 25/3/2019]
+- [[[dcos-hybrid, 38]]] Introducing Hybrid Cloud Capabilities in DC/OS 1.11: Regions, Zones, and Linked Clusters - Mesosphere: https://mesosphere.com/blog/dcos-1_11-hybrid/ [Last accessed: 25/3/2019]
+- [[[orchestration-wiki, 39]]] Orchestration (computing) - Wikipedia: https://en.wikipedia.org/wiki/Orchestration_(computing) [Last accessed: 25/3/2019]
+- [[[aws-elb, 40]]] Elastic Load Balancing – Cloud-Load Balancer: https://aws.amazon.com/elasticloadbalancing/ [Last accessed: 25/3/2019]
+- [[[aws-vpc, 41]]] Amazon Virtual Private Cloud (VPC): https://aws.amazon.com/vpc/ [Last accessed: 25/3/2019]
+- [[[aws-r53, 42]]] Amazon Route 53 - Amazon Web Services: https://aws.amazon.com/route53/ [Last accessed: 25/3/2019]
+- [[[aws-ec2, 43]]] Amazon EC2: https://aws.amazon.com/ec2/ [Last accessed: 25/3/2019]
+- [[[digitalocean, 44]]] DigitalOcean - Cloud Computing, Simplicity at Scale: https://www.digitalocean.com/ [Last accessed: 25/3/2019]
+- [[[do-price, 45]]] Pricing on DigitalOcean - Cloud virtual machine & storage pricing: https://www.digitalocean.com/pricing/#Compute [Last accessed: 25/3/2019]
+- [[[aws-price, 46]]] EC2 Instance Pricing – Amazon Web Services (AWS): https://aws.amazon.com/ec2/pricing/on-demand/ [Last accessed: 25/3/2019]
+- [[[apache-server, 47]]] Welcome! - The Apache HTTP Server Project: https://httpd.apache.org/ [Last accessed: 25/3/2019]
+- [[[php-usage, 48]]] Usage Statistics and Market Share of Server-side Programming Languages for Websites, March 2019: https://w3techs.com/technologies/overview/programming_language/all [Last accessed: 25/3/2019]
+- [[[mysql-usage, 49]]] DB-Engines Ranking - popularity ranking of database management systems: https://db-engines.com/en/ranking [Last accessed: 25/3/2019]
+- [[[hhvm, 50]]] HHVM | HHVM: https://hhvm.com/ [Last accessed: 25/3/2019]
+- [[[memcached, 51]]] memcached - a distributed memory object caching system: http://memcached.org/ [Last accessed: 25/3/2019]
+- [[[fb-stack, 52]]] Exploring the Software Behind Facebook, the World's Largest Social Media Site - Pingdom Royal: https://royal.pingdom.com/the-software-behind-facebook/ [Last accessed: 25/3/2019]
 - [[[haystack-paper, 53]]] D. Beaver, S. Kumar, H.C. Li, J. Sobel and P. Vajgel. Finding a needle in Haystack: Facebook’s photo storage https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf
-- [[[hadoop, 54]]] The Apache Hadoop project: https://hadoop.apache.org/
-- [[[hive, 55]]] The Apache Hive project: https://hive.apache.org/
-- [[[fb-first-server, 56]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/
+- [[[hadoop, 54]]] The Apache Hadoop project: https://hadoop.apache.org/ [Last accessed: 25/3/2019]
+- [[[hive, 55]]] The Apache Hive project: https://hive.apache.org/ [Last accessed: 25/3/2019]
+- [[[fb-first-server, 56]]] R. Empson. Facebook’s First Server Cost $85/Month, TechCrunch, 2012 https://techcrunch.com/2012/10/20/facebooks-first-server-cost-85month/ [Last accessed: 25/3/2019]
 - [[[dns-lb, 57]]] Y.S. Hong, J.H. No and S.Y. Kim. DNS-based load balancing in distributed Web-server systems https://ieeexplore.ieee.org/abstract/document/1611743
-- [[[spring, 58]]] Spring Boot: https://spring.io/projects/spring-boot
-- [[[netflix-zuul, 59]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul
-- [[[netflix-eureka, 60]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka
-- [[[logstash, 61]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash
-- [[[elastic, 62]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch
-- [[[kibana, 63]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana
-- [[[neo4j-mysql-friends, 64]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/
-- [[[couchbase, 65]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/
-- [[[spring-pivotal, 66]]] Guides: https://spring.io/guides
-- [[[spring-baeldung, 67]]] Baeldung | Java, Spring and Web Development tutorials: https://www.baeldung.com/
-- [[[aws-rds, 68]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/
-- [[[aws-neptune, 69]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/
-- [[[aws-scaling, 70]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html
+- [[[spring, 58]]] Spring Boot: https://spring.io/projects/spring-boot [Last accessed: 25/3/2019]
+- [[[netflix-zuul, 59]]] Netflix/zuul: Zuul is a gateway service that provides dynamic routing, monitoring, resiliency, security, and more.: https://github.com/Netflix/zuul [Last accessed: 25/3/2019]
+- [[[netflix-eureka, 60]]] Netflix/eureka: AWS Service registry for resilient mid-tier load balancing and failover.: https://github.com/Netflix/eureka [Last accessed: 25/3/2019]
+- [[[logstash, 61]]] Logstash: Collect, Parse, Transform Logs | Elastic: https://www.elastic.co/products/logstash [Last accessed: 25/3/2019]
+- [[[elastic, 62]]] Elasticsearch: RESTful, Distributed Search & Analytics | Elastic: https://www.elastic.co/products/elasticsearch [Last accessed: 25/3/2019]
+- [[[kibana, 63]]] Kibana: Explore, Visualize, Discover Data | Elastic: https://www.elastic.co/products/kibana [Last accessed: 25/3/2019]
+- [[[neo4j-mysql-friends, 64]]] How much faster is a graph database, really? - Neo4j Graph Database Platform: https://neo4j.com/news/how-much-faster-is-a-graph-database-really/ [Last accessed: 25/3/2019]
+- [[[couchbase, 65]]] NoSQL Engagement Database | Couchbase: https://www.couchbase.com/ [Last accessed: 25/3/2019]
+- [[[spring-pivotal, 66]]] Guides: https://spring.io/guides [Last accessed: 25/3/2019]
+- [[[spring-baeldung, 67]]] Baeldung | Java, Spring and Web Development tutorials: https://www.baeldung.com/ [Last accessed: 25/3/2019]
+- [[[aws-rds, 68]]] Amazon Relational Database Service (RDS) – AWS: https://aws.amazon.com/rds/ [Last accessed: 25/3/2019]
+- [[[aws-neptune, 69]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/ [Last accessed: 25/3/2019]
+- [[[aws-scaling, 70]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html [Last accessed: 25/3/2019]
 
 == 11. Illustration Directory
 
