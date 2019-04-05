@@ -691,6 +691,7 @@ Serverless technology is very promising, if a bit hard to get into. With time, a
 - [[[aws-neptune, 69]]] Amazon Neptune - Fast, Reliable Graph Database built for the cloud: https://aws.amazon.com/neptune/ [Last accessed: 25/3/2019]
 - [[[aws-scaling, 70]]] Simple and Step Scaling Policies for Amazon EC2 Auto Scaling - Amazon EC2 Auto Scaling: https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html [Last accessed: 25/3/2019]
 
+<<<
 == 11. Illustration Directory
 
 * Figure 1: <<img-monolith>>
